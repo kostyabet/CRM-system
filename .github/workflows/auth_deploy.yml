@@ -14,51 +14,10 @@ env:
   IMAGE_TAG: auth_service-${{ github.sha }}
 
 jobs:
-  build:
-    runs-on: ubuntu-22.04
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Install dependencies
-        run: |
-            cd authorization
-            npm install
-  
-      - name: Build project
-        run: |
-          cd authorization
-          node server.js
-  
   push:
-    needs: build
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Install dependencies
-        run: |
-            cd authorization
-            npm install
-  
-      - name: Build project
-        run: |
-            cd authorization
-            node server.js
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
