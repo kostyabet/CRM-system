@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  auth-service:
+    image: kostyabet228/crm-system:auth_service-latest
+    container_name: auth-service
+    networks:
+      - app-net
+    ports:
+      - "5000:5000"
+
+  gateway:
+    image: kostyabet228/crm-system:getaway-latest
+    container_name: gateway
+    networks:
+      - app-net
+    ports:
+      - "8080:8080"
+
+  frontend:
+    image: kostyabet228/crm-system:frontend-latest
+    container_name: frontend
+    networks:
+      - app-net
+    ports:
+      - "3000:80"
+
+networks:
+  app-net:
+    driver: bridge

@@ -1,3 +1,6 @@
 # nothing yet
 .env
 node_modules/
+
+# action runner
+actions-runner/
