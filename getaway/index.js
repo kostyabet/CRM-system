@@ -4,10 +4,10 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 
 app.use('/auth', createProxyMiddleware({
-  target: 'http://auth-service:5000', // имя сервиса в docker-compose
+  target: 'http://auth-service:5000',
   changeOrigin: true,
   pathRewrite: {
-    '^/auth': '', // удаляет /auth из пути при проксировании
+    '^/auth': '',
   },
 }));
 
