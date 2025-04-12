@@ -6,7 +6,7 @@ export const MainPage = () => {
         console.log('direct response', response.data);
     })
 
-    fetch('http://localhost:5000/api/auth/test', { method: 'GET' }).then((response) => {
+    fetch('http://localhost:8080/api/auth/test', { method: 'GET' }).then((response) => {
         console.log('getaway response', response.data);
     })
 
