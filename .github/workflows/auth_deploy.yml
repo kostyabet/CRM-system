@@ -11,7 +11,7 @@ on:
 env:
   NODE_VERSION: '20.18.0'
   IMAGE_NAME: kostyabet228/crm-system
-  IMAGE_TAG: auth_service-${{ github.sha }}
+  IMAGE_TAG: auth_service-latest
 
 jobs:
   push:
