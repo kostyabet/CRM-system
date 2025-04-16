@@ -21,7 +21,7 @@ app.use('/api/auth', async (req, res) => {
     console.log(response);
     res.status(response.status).send(response.data);
   } catch (error) {
-    console.error('Error in proxy:', error.message); // Логирование ошибки
+    console.error('Error in proxy:', error); // Логирование ошибки
     res.status(error.response ? error.response.status : 500).send(error.message);
   }
 });
