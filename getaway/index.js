@@ -7,7 +7,7 @@ const app = express();
 app.use('/api/auth', createProxyMiddleware({
   target: 'http://localhost:5000',
   changeOrigin: true,
-  pathRewrite: { '^/api/auth': '' }, // сохраняем путь как есть
+  logLevel: 'debug',
 }));
 
 app.listen(8080, () => {
