@@ -5,7 +5,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 
 app.use('/api/auth', createProxyMiddleware({
-  target: process.env.AUTH_SERVICE_URL,
+  target: 'http://localhost:5000',
   changeOrigin: true,
 }));
 
