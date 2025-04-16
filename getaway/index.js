@@ -8,6 +8,7 @@ app.use(express.json());
 
 app.use('/api/auth', async (req, res) => {
   try {
+    console.log(req.message, req.originalUrl, req.body, req.headers);
     const response = await axios({
         method: req.method,
         url: 'http://localhost:5000' + req.originalUrl, // Используем req.path вместо req.originalUrl
