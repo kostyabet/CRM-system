@@ -7,7 +7,8 @@ const PORT = 8080;
 app.use(express.json());
 
 app.use('/api/auth', async (req, res) => {
-  console.log(`/api/auth - ${req}`)
+  console.log(`/api/auth`);
+  console.log(req);
   try {
     const response = await axios({
         method: req.method,
