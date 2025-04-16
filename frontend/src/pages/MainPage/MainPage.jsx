@@ -2,8 +2,8 @@ import React, { StrictMode } from 'react'
 
 export const MainPage = () => {
     
-    fetch('http://localhost:5000/api/auth/test', { method: 'GET' }).then((response) => {
-        console.log('direct response', response.data);
+    fetch('http://localhost:80/api/auth/test', { method: 'GET' }).then((response) => {
+        console.log(response.data);
     })
 
     return (
