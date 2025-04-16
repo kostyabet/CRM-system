@@ -1,10 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
 
-app.use('/auth', createProxyMiddleware({
-  target: 'http://localhost:5000/',
+app.use('/api/auth', createProxyMiddleware({
+  target: process.env.AUTH_SERVICE_URL,
   changeOrigin: true,
 }));
 
