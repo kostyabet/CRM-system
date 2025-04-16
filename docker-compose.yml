@@ -9,14 +9,6 @@ services:
     ports:
       - "5000:5000"
 
-  # gateway:
-  #   image: kostyabet228/crm-system:getaway-latest
-  #   container_name: gateway
-  #   networks:
-  #     - app-net
-  #   ports:
-  #     - "8080:8080"
-
   frontend:
     image: kostyabet228/crm-system:frontend-latest
     container_name: frontend
