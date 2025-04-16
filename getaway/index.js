@@ -4,11 +4,8 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 
 app.use('/auth', createProxyMiddleware({
-  target: 'http://auth-service:5000',
+  target: 'http://localhost:5000/',
   changeOrigin: true,
-  pathRewrite: {
-    '^/auth': '',
-  },
 }));
 
 app.listen(8080, () => {
