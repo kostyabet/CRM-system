@@ -3,6 +3,7 @@ import { Suspense, lazy } from 'react';
 import React from 'react';
 import ErrorBoundary from "./../../components/common/error/ErrorBoundary"
 import LoadingScreen from './../../components/common/loading/LoadingScreen';
+import GuestGuard from './../guards/GuestGuard';
 
 const Loadable = (Component) => (props) => {
     return (
@@ -19,17 +20,23 @@ export function Router() {
         {
             children: [{
                 element: (
-                    <Login />
+                    <GuestGuard>
+                        <Login />
+                    </GuestGuard>
                 ),
                 path: 'login'
             }],
             path: 'auth',
         },
         {
-            children: [{
-                element: (<MainPage />),
-                path: 'main'
-            }],
+            // children: [{
+                
+            // }],
+            element: (
+                // <AuthGuard>
+                    <MainPage />
+                // </AuthGuard>
+            ),
             path: '/',
         }
     ])
