@@ -1,4 +1,5 @@
 import React, { StrictMode } from 'react'
+import { HelmetProvider } from 'react-helmet-async';
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom';
 import { Router } from './router';
@@ -7,10 +8,12 @@ import './styles/style.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthProvider>
-      <BrowserRouter>
-        <Router />
-      </BrowserRouter>
-    </AuthProvider>
+    <HelmetProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Router />
+        </BrowserRouter>
+      </AuthProvider>
+    </HelmetProvider>
   </StrictMode>
 )
