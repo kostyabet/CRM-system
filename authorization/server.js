@@ -12,7 +12,7 @@ app.use(cors({
 }));
 
 // Import and use the auth routes
-app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
 
 // Start the server
 app.listen(5000, () => {

@@ -1,35 +1,42 @@
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const auth = require('../models/authModel');
 const User = require('../models/user');
-const { JWT_SECRET, JWT_EXPIRE } = require('../config/config');
+require('dotenv').config();
+
+const accessTokenSecret = process.env.ACCESSTOKENSECRET;
+const refreshTokenSecret = process.env.REFRESHTOKENSECRET;
 
 exports.register = async (req, res) => {
-  const { email, password } = req.body;
 
-  const existingUser = await User.findOne({ email });
-  if (existingUser) {
-    return res.status(400).json({ message: 'User already exists' });
+  let status = await authJWT(req, res);
+  console.log("statusCode:", status);
+
+  if (status.status === 200) {
+
+  } else {
+    return res.status(status.status).json({ msg: "We have problems with JWT authentication" });
   }
+}
 
-  const hashedPassword = await User.hashPassword(password);
-  const user = new User(email, hashedPassword);
-  await User.save(user);
+function authJWT(req, res) {
+  const authHeader = req.headers.authorization;
+  let status;
+  let id;
+  if (authHeader) {
+      const token = authHeader.split(' ')[1];
 
-  res.status(201).json({ message: 'User registered successfully' });
-};
-
-exports.login = async (req, res) => {
-  const { email, password } = req.body;
-
-  const user = await User.findOne({ email });
-  if (!user) {
-    return res.status(400).json({ message: 'Invalid credentials' });
+      jwt.verify(token, accessTokenSecret, (err, user) => {
+          if (err) {
+              status = 403;
+          } else {
+              status = 200;
+              req.user = user;
+              id = user.id;
+          }
+      });
+  } else {
+      status = 401;
   }
-
-  const isMatch = await user.comparePassword(password);
-  if (!isMatch) {
-    return res.status(400).json({ message: 'Invalid credentials' });
-  }
-
-  const token = jwt.sign({ email: user.email }, JWT_SECRET, { expiresIn: JWT_EXPIRE });
-  res.json({ token });
-};
+  return { status: status, id: id };
+}
