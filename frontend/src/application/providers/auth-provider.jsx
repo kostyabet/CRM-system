@@ -46,7 +46,13 @@ function AuthProvider({ children }) {
             try {
                 const accessToken = localStorage.getItem('accessToken');
                 if (accessToken) {
-
+                    // some moves
+                    dispatch({
+                        payload: {
+                            isAuthenticated: true,
+                        },
+                        type: 'INITIALIZE',
+                    });
                 } else {
                     dispatch({
                         payload: {

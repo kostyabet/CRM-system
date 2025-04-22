@@ -5,6 +5,7 @@ import ErrorBoundary from "./../../components/common/error/ErrorBoundary"
 import LoadingScreen from './../../components/common/loading/LoadingScreen';
 import GuestGuard from './../guards/GuestGuard';
 import LogoOnlyLayout from './../layouts/LogoOnlyLayout';
+import AuthGuard from "../guards/AuthGuard";
 
 const Loadable = (Component) => (props) => {
     return (
@@ -30,10 +31,13 @@ export function Router() {
             path: 'auth',
         },
         {
+            children: [
+                
+            ],
             element: (
-                // <AuthGuard>
+                <AuthGuard>
                     <MainPage />
-                // </AuthGuard>
+                </AuthGuard>
             ),
             path: '/',
         },
