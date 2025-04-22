@@ -75,6 +75,7 @@ function AuthProvider({ children }) {
     }, []);
 
     const login = async (login, pass) => {
+        console.log(login, pass)
         // EXEMPLE
         // -----------------------------------------------------
         // const response = await httpClient.post('/login', {

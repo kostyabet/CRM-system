@@ -15,7 +15,6 @@ export const SettingsConsumer = SettingsContext.Consumer;
 export function SettingsProvider({ children, settings }) {
   
   const values = useLocalStorage(STORAGE_KEY, settings);
-  console.log(settings, values)
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const onToggleDrawer = useCallback(() => {
@@ -48,8 +47,6 @@ export function SettingsProvider({ children, settings }) {
       onToggleDrawer,
     ]
   );
-
-  console.log()
 
   return <SettingsContext.Provider value={memoizedValue}>{children}</SettingsContext.Provider>;
 }

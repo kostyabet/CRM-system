@@ -144,8 +144,6 @@ const darkPalette = {
   text: { disabled: grey[600], primary: '#fff', secondary: grey[500] },
 }
 
-console.log(lightPalette, darkPalette)
-
 export const colorSchemes = {
   light: { palette: lightPalette },
   dark: { palette: darkPalette },

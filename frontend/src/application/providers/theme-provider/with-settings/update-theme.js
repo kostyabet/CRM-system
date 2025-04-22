@@ -32,8 +32,6 @@ export function updateCoreWithSettings(theme, settings) {
     PRIMARY_COLORS[settings.primaryColor]
   );
 
-  console.log(settings.contrast)
-
   return {
     ...theme,
     palette: {
@@ -90,7 +88,6 @@ export function updateComponentsWithSettings(settings) {
 
     components.MuiCard = MuiCard;
   }
-  console.log('lllllllll')
 
   return { components };
 }
@@ -99,12 +96,10 @@ export function updateComponentsWithSettings(settings) {
 
 function getPalette(name, initialPalette, updatedPalette) {
   /** [1] */
-  console.log(name, initialPalette, updatedPalette)
   return name === 'default' ? initialPalette : createPaletteChannel(updatedPalette);
 }
 
 function getBackgroundDefault(contrast) {
   /** [2] */
-  console.log(coreGreyPalette[200])
   return contrast === 'default' ? '#FFFFFF' : coreGreyPalette[200];
 }

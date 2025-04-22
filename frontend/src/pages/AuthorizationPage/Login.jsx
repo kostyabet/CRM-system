@@ -15,7 +15,7 @@ import useAuth from './../../shared/hooks/useAuth';
 import useResponsive from './../../shared/hooks/useResponsive';
 import Page from './../../components/Page';
 import Logo from './../../components/Logo';
-import Image from './../../components/Image';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 
 // ----------------------------------------------------------------------
 
@@ -79,20 +79,6 @@ export default function LoginPage() {
                     <Logo />
                 </HeaderStyle>
 
-                {mdUp && (
-                    <SectionStyle>
-                        <Typography sx={{ mb: 5, mt: 10, px: 5 }} variant="h3">
-                            Hi, Welcome Back
-                        </Typography>
-                        <Image
-                            alt="login"
-                            disabledEffect
-                            src="/assets/illustrations/illustration_login.png"
-                            visibleByDefault
-                        />
-                    </SectionStyle>
-                )}
-
                 <Container maxWidth="sm">
                     <ContentStyle>
                         <Stack
@@ -102,7 +88,7 @@ export default function LoginPage() {
                         >
                             <Box sx={{ flexGrow: 1 }}>
                                 <Typography gutterBottom variant="h4">
-                                    Sign in to Blackout
+                                    Sign in to CRM System
                                 </Typography>
                                 <Typography sx={{ color: 'text.secondary' }}>
                                     Enter your details below.
@@ -113,13 +99,7 @@ export default function LoginPage() {
                                 placement="right"
                                 title={capitalCase(method)}
                             >
-                                <>
-                                    <Image
-                                        disabledEffect
-                                        src={`https://minimal-assets-api-dev.vercel.app/assets/icons/auth/ic_${method}.png`}
-                                        sx={{ height: 32, width: 32 }}
-                                    />
-                                </>
+                                <HowToRegIcon sx={{ height: 32, width: 32 }}/>
                             </Tooltip>
                         </Stack>
                         <LoginForm />

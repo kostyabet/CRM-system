@@ -6,6 +6,8 @@ import path, { resolve } from 'path';
 export default ({ mode }) => {
   const env = process.env;
   Object.assign(env, loadEnv(mode, process.cwd()));
+  
+  env.VITE_APP_API_URL = env.VITE_API_LOCAL;
 
   const serverPort = parseInt(env.VITE_SERVER_PORT) || 3000;
 

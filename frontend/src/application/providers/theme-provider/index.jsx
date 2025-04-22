@@ -44,11 +44,9 @@ export function ThemeProvider({ children }) {
     );
 
     const theme = createTheme(themeOptions);
-    console.log(theme)
 
     const updatedTheme = updateCoreWithSettings(theme, settings)
     updatedTheme.components = components;
-    console.log(updatedTheme)
 
     return (
         <StyledEngineProvider injectFirst>
