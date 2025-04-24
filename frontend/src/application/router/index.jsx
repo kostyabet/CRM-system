@@ -6,6 +6,8 @@ import LoadingScreen from './../../components/common/loading/LoadingScreen';
 import GuestGuard from './../guards/GuestGuard';
 import LogoOnlyLayout from './../layouts/LogoOnlyLayout';
 import AuthGuard from "../guards/AuthGuard";
+import DashboardLayout from './../layouts/dashboard';
+import { PATH_AFTER_LOGIN } from './../../application/config';
 
 const Loadable = (Component) => (props) => {
     return (
@@ -32,11 +34,15 @@ export function Router() {
         },
         {
             children: [
-                
+                {
+                    element: <Navigate replace to={PATH_AFTER_LOGIN} />,
+                    index: true,
+                },
+                { element: <MainPage />, path: 'app' }
             ],
             element: (
                 <AuthGuard>
-                    <MainPage />
+                    <DashboardLayout />
                 </AuthGuard>
             ),
             path: '/',

@@ -14,6 +14,7 @@ import PRIMARY_COLOR from './../../../application/providers/theme-provider/with-
 import Scrollbar from './../../../components/Scrollbar';
 import Iconify from './../../../components/Iconify';
 
+import { FontSizeOption } from './fontsize-option';
 import { BaseOption } from './base-option';
 import { NavOptions } from './nav-options';
 import { useSettingsContext } from '../context';
@@ -145,6 +146,16 @@ export function SettingsDrawer({
     />
   );
 
+  const renderFontSize = (
+    <FontSizeOption
+      onChangeOption={null}
+      minOption={12}
+      maxOption={96}
+      step={8}
+      currentValue={0}
+    />
+  );
+
   return (
     <>
         <ToggleButton
@@ -179,6 +190,7 @@ export function SettingsDrawer({
             </Box>
             {!(hideNavLayout && hideNavColor) && renderNav}
             {!hidePresets && renderPresets}
+            {renderFontSize}
           </Stack>
         </Scrollbar>
       </Drawer>
