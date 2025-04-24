@@ -10,22 +10,25 @@ import { SettingsProvider } from './../widgets/theme-settings/context/settings-p
 import { defaultSettings } from './../widgets/theme-settings/config-settings'
 import { SettingsDrawer } from './../widgets/theme-settings';
 import { QueryClientProvider } from './providers/query-client';
+import { CollapseDrawerProvider } from './providers/collapse-drawer-provider';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider>
-      <HelmetProvider>
-        <AuthProvider>
-          <SettingsProvider settings={defaultSettings}>
-            <ThemeProvider>
-              <BrowserRouter>
-                <SettingsDrawer/>
-                <Router />
-              </BrowserRouter>
-            </ThemeProvider>
-          </SettingsProvider>
-        </AuthProvider>
-      </HelmetProvider>
+      <CollapseDrawerProvider>
+        <HelmetProvider>
+          <AuthProvider>
+            <SettingsProvider settings={defaultSettings}>
+              <ThemeProvider>
+                <BrowserRouter>
+                  <SettingsDrawer/>
+                  <Router />
+                </BrowserRouter>
+              </ThemeProvider>
+            </SettingsProvider>
+          </AuthProvider>
+        </HelmetProvider>
+      </CollapseDrawerProvider>
     </QueryClientProvider>
   </StrictMode>
 )

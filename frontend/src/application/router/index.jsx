@@ -72,10 +72,12 @@ const Login = Loadable(
     lazy(() => import('./../../pages/AuthorizationPage/Login'))
 );
 
+// MAIN
 const MainPage = Loadable(
     lazy(() => import('./../../pages/MainPage/MainPage'))
 );
 
+// USERS
 const UserProfile = Loadable(
     lazy(() => import('./../../pages/UsersPage/UsersPage'))
 );

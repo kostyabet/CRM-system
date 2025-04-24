@@ -50,6 +50,7 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
         onHoverLeave,
         onToggleCollapse,
     } = useCollapseDrawer();
+    console.log(collapseClick, useCollapseDrawer());
 
     useEffect(() => {
         if (isOpenSidebar) {
