@@ -1,16 +1,28 @@
 import React from 'react'
-import Page404 from './../Page404';
+import { useUserInfo } from './../../entities/user';
+import Page from './../../components/Page';
+import useSettings from './../../shared/hooks/useSettings';
+import {
+    Container,
+    Box,
+    Typography
+} from '@mui/material';
 
 export default function MainPage() {
-    
-    // Request example
-    // fetch('http://localhost:80/api/auth/test', { method: 'GET' }).then((response) => {
-    //     console.log(response);
-    // })
+    const { data: user } = useUserInfo();
+
+    const { themeStretch } = useSettings();
 
     return (
-        <p>
-            This is text message!
-        </p>
+        <Page title="General: App">
+            <Container maxWidth={themeStretch ? false : 'xl'}>
+                <Box>
+                    <Typography gutterBottom variant="h4">
+                        👋 Привет, {user?.name.firstName}
+                    </Typography>
+                </Box>
+                This is text message!
+            </Container> 
+        </Page>
     )
 }

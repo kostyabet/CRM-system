@@ -41,9 +41,9 @@ export function Router() {
                 { element: <MainPage />, path: 'app' }
             ],
             element: (
-                <AuthGuard>
+                // <AuthGuard>
                     <DashboardLayout />
-                </AuthGuard>
+                // </AuthGuard>
             ),
             path: '/',
         },

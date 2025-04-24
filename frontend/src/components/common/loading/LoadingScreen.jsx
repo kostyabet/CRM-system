@@ -50,9 +50,9 @@ export default function LoadingScreen({ isDashboard, ...other }) {
                         <Logo
                             disabledLink
                             sx={{
-                                height: 64,
+                                height: 38,
                                 transform: 'translate(10px, 10px)',
-                                width: 64,
+                                width: 75
                             }}
                         />
                     </m.div>
