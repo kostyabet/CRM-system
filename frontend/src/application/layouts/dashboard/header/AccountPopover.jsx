@@ -16,8 +16,12 @@ import { PATH_AUTH, PATH_DASHBOARD } from './../../../router/paths';
 
 const MENU_OPTIONS = [
     {
-        label: 'Home',
+        label: 'Домой',
         linkTo: '/app',
+    },
+    {
+        label: 'Профиль',
+        linkTo: PATH_DASHBOARD.user.profile,
     },
 ];
 
@@ -66,8 +70,6 @@ export default function AccountPopover() {
         });
         window.location.reload(true);
     };
-
-    const isStatisticsAvailable = user.role.id === 2 || user.role.id === 3;
 
     return (
         <>
@@ -132,22 +134,13 @@ export default function AccountPopover() {
                             {option.label}
                         </MenuItem>
                     ))}
-                    <MenuItem onClick={handleClearCache}>Clear cache</MenuItem>
-                    {isStatisticsAvailable && (
-                        <MenuItem
-                            component={RouterLink}
-                            onClick={handleClose}
-                            to={PATH_DASHBOARD.user.statistics}
-                        >
-                            Статистика
-                        </MenuItem>
-                    )}
+                    <MenuItem onClick={handleClearCache}>Очистить кэш</MenuItem>
                 </Stack>
 
                 <Divider sx={{ borderStyle: 'dashed' }} />
 
                 <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
-                    Logout
+                    Выйти
                 </MenuItem>
             </MenuPopover>
         </>

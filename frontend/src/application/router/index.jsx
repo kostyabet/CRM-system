@@ -38,7 +38,13 @@ export function Router() {
                     element: <Navigate replace to={PATH_AFTER_LOGIN} />,
                     index: true,
                 },
-                { element: <MainPage />, path: 'app' }
+                { element: <MainPage />, path: 'app' },
+                {
+                    children: [
+                        { element: <UserProfile />, path: 'profile' }
+                    ],
+                    path: 'user'
+                }
             ],
             element: (
                 // <AuthGuard>
@@ -47,8 +53,6 @@ export function Router() {
             ),
             path: '/',
         },
-
-        // MainRoutes
         {
             children: [
                 { element: <Page500 />, path: '500' },
@@ -56,7 +60,7 @@ export function Router() {
                 { element: <Page403 />, path: '403' },
                 { element: <Navigate replace to="/404" />, path: '*' },
             ],
-            // element: <LogoOnlyLayout />, LAYOUT FOR ALL ERROR PAGES
+            element: <LogoOnlyLayout />,
             path: '*'
         },
         { element: <Navigate replace to="/404" />, path: '*' },
@@ -70,6 +74,10 @@ const Login = Loadable(
 
 const MainPage = Loadable(
     lazy(() => import('./../../pages/MainPage/MainPage'))
+);
+
+const UserProfile = Loadable(
+    lazy(() => import('./../../pages/UsersPage/UsersPage'))
 );
 
 // MAIN

@@ -34,7 +34,7 @@ export default function NavbarAccount({ isCollapse }) {
         <Link
             color="inherit"
             component={RouterLink}
-            // to={PATH_DASHBOARD.user.profile}
+            to={PATH_DASHBOARD.user.profile}
             underline="none"
         >
             <RootStyle

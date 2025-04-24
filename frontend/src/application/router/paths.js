@@ -149,7 +149,7 @@ export const PATH_DASHBOARD = {
     //     projects: path(ROOTS_DASHBOARD, '/subrent/projects'),
     //     root: path(ROOTS_DASHBOARD, '/subrent'),
     // },
-    // user: {
+    user: {
     //     account: path(ROOTS_DASHBOARD, '/user/account'),
     //     cards: path(ROOTS_DASHBOARD, '/user/cards'),
     //     demoEdit: path(ROOTS_DASHBOARD, `/user/reece-chung/edit`),
@@ -157,11 +157,11 @@ export const PATH_DASHBOARD = {
     //     list: path(ROOTS_DASHBOARD, '/user/list'),
     //     new: path(ROOTS_DASHBOARD, '/user/new'),
     //     notifications: path(ROOTS_DASHBOARD, '/user/notifications'),
-    //     profile: path(ROOTS_DASHBOARD, '/user/profile'),
+        profile: path(ROOTS_DASHBOARD, '/user/profile'),
     //     profileAnother: (id) => path(ROOTS_DASHBOARD, `/user/profile/${id}`),
     //     root: path(ROOTS_DASHBOARD, '/user'),
     //     statistics: path(ROOTS_DASHBOARD, '/user/statistics'),
-    // },
+    },
 };
 
 export const PATH_DOCS = 'https://docs-minimals.vercel.app/introduction';
