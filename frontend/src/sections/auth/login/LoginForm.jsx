@@ -1,6 +1,6 @@
 import React from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { LoadingButton } from '@mui/lab';
+import Button from '@mui/material/Button';
 import { Alert, IconButton, InputAdornment, Stack } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -90,7 +90,7 @@ export default function LoginForm() {
                 />
             </Stack>
 
-            <LoadingButton
+            <Button
                 fullWidth
                 loading={isSubmitting}
                 size="large"
@@ -98,7 +98,7 @@ export default function LoginForm() {
                 variant="contained"
             >
                 Login
-            </LoadingButton>
+            </Button>
         </FormProvider>
     );
 }

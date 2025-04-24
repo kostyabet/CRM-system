@@ -8,6 +8,7 @@ import { ThemeProvider } from './providers/theme-provider/index';
 import './styles/style.css';
 import { SettingsProvider } from './../widgets/theme-settings/context/settings-provider';
 import { defaultSettings } from './../widgets/theme-settings/config-settings'
+import { SettingsDrawer } from './../widgets/theme-settings';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -16,6 +17,7 @@ createRoot(document.getElementById('root')).render(
         <SettingsProvider settings={defaultSettings}>
           <ThemeProvider>
             <BrowserRouter>
+              <SettingsDrawer/>
               <Router />
             </BrowserRouter>
           </ThemeProvider>
