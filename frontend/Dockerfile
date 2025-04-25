@@ -2,7 +2,7 @@
 FROM node:alpine AS build_stage
 WORKDIR /app
 COPY ./frontend/package*.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
 COPY ./frontend/ ./
 RUN npm run build
 
