@@ -1,36 +1,50 @@
 import React from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Grid } from '@mui/material';
 import Button from '@mui/material/Button';
 import { Alert, IconButton, InputAdornment, Stack, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
-import { useSnackbar } from 'notistack';
-
+import { Card } from '@mui/material';
 import useAuth from './../../../shared/hooks/useAuth'
 import useIsMountedRef from './../../../shared/hooks/useIsMountedRef';
 import Iconify from './../../../components/Iconify';
 import { FormProvider, RHFTextField } from './../../../components/hook-form';
+import { useNavigate } from 'react-router-dom';
 
-export default function LoginForm() {
-    const { login } = useAuth();
+export default function RegisterForm() {
+    const { register } = useAuth();
 
     const isMountedRef = useIsMountedRef();
+
+    const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
     const [errorTitle, setErrorTitle] = useState('');
 
-    const { enqueueSnackbar } = useSnackbar();
-
     const LoginSchema = Yup.object().shape({
         login: Yup.string().required('Login is required'),
         password: Yup.string().required('Password is required'),
+        firstName: Yup.string().required('First name is required'),
+        lastName: Yup.string().required('Last name is required'),
+        phone: Yup.string()
+            .matches(/^\+?[0-9]{10,15}$/, 'Введите корректный номер телефона')
+            .required('Phone number is required'),
+        email: Yup.string()
+            .email('Введите корректный email')
+            .required('Email is required'),
+        role: Yup.string().required('Role is required'),
     });
 
     const defaultValues = {
-        login: '',
-        password: '',
-        remember: true,
+        login: 'admin',
+        password: 'admin',
+        firstName: 'admin',
+        lastName: 'admin',
+        phone: '+375291234567',
+        email: 'example@mail.ru',
+        role: 'admin',
     };
 
     const methods = useForm({
@@ -47,7 +61,8 @@ export default function LoginForm() {
 
     const onSubmit = async (data) => {
         try {
-            await login(data.login, data.password);
+            await register(data);
+            navigate(PATH_AUTH.login);
         } catch (error) {
             setErrorTitle(error.response.data.message);
             reset();
@@ -59,7 +74,7 @@ export default function LoginForm() {
 
     return (
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={3} sx={{ mb: 3 }}>
+            <Stack spacing={2} sx={{ mb: 3 }}>
                 {!!errors.afterSubmit && (
                     <Alert severity="error">{errors.afterSubmit.message}</Alert>
                 )}
@@ -91,6 +106,12 @@ export default function LoginForm() {
                     name="password"
                     type={showPassword ? 'text' : 'password'}
                 />
+
+                <RHFTextField label="Имя" name="firstName" />
+                <RHFTextField label="Фамилия" name="lastName" />
+                <RHFTextField label="Номер телефона" name="phone" />
+                <RHFTextField label="Почта" name="email" />
+                <RHFTextField label="Роль" name="role" />
             </Stack>
 
             <Stack sx={{ mb: 3 }}>
@@ -106,7 +127,7 @@ export default function LoginForm() {
                 type="submit"
                 variant="contained"
             >
-                Войти
+                Зарегистрироваться
             </Button>
         </FormProvider>
     );

@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import { setSession } from '~/shared/utils/jwt';
+import { httpClient } from '~/shared/api';
 
 const initialState = {
     isAuthenticated: false,
@@ -30,6 +31,7 @@ const handlers = {
 
 const AuthContext = createContext({
     ...initialState,
+    register: () => Promise.resolve(),
     login: () => Promise.resolve(),
     logout: () => Promise.resolve(),
     method: 'jwt',
@@ -74,15 +76,17 @@ function AuthProvider({ children }) {
         initialize();
     }, []);
 
+    const register = async (data) => {
+        await httpClient.post('/auth/register', data);
+    }
+
     const login = async (login, pass) => {
-        // EXEMPLE
-        // -----------------------------------------------------
-        // const response = await httpClient.post('/login', {
-        //     login,
-        //     pass,
-        // });
-        // const { accessToken, refreshToken, user } = response.data;
-        // setSession(accessToken, refreshToken);
+        const response = await httpClient.post('/auth/login', {
+            login,
+            pass,
+        });
+        const { accessToken, refreshToken } = response.data;
+        setSession(accessToken, refreshToken);
 
         dispatch({ type: 'LOGIN' });
     }
@@ -96,6 +100,7 @@ function AuthProvider({ children }) {
         <AuthContext.Provider
             value={{
                 ...state,
+                register,
                 login,
                 logout,
                 method: 'jwt',

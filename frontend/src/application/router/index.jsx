@@ -22,14 +22,22 @@ const Loadable = (Component) => (props) => {
 export function Router() {
     return useRoutes([
         {
-            children: [{
-                element: (
-                    <GuestGuard>
-                        <Login />
-                    </GuestGuard>
-                ),
-                path: 'login'
-            }],
+            children: [
+                {
+                    element: (
+                        <GuestGuard>
+                            <Login />
+                        </GuestGuard>
+                    ),
+                    path: 'login'
+                },
+                {
+                    element: (
+                        <Register />
+                    ),
+                    path: 'register'    
+                }
+            ],
             path: 'auth',
         },
         {
@@ -47,9 +55,9 @@ export function Router() {
                 }
             ],
             element: (
-                // <AuthGuard>
+                <AuthGuard>
                     <DashboardLayout />
-                // </AuthGuard>
+                </AuthGuard>
             ),
             path: '/',
         },
@@ -70,6 +78,9 @@ export function Router() {
 // AUTHENTICATION
 const Login = Loadable(
     lazy(() => import('./../../pages/AuthorizationPage/Login'))
+);
+const Register = Loadable(
+    lazy(() => import('./../../pages/AuthorizationPage/Register'))
 );
 
 // MAIN

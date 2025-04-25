@@ -48,7 +48,7 @@ httpClient.interceptors.response.use(
                     const params = new URLSearchParams();
                     params.append('token', refreshTokenStorage);
                     axios
-                        .post(`${API_URL}/login/updatejwt`, params, { // change update jwt url
+                        .post(`${API_URL}/auth/refresh`, params, { // change update jwt url
                             headers: {
                                 'content-type':
                                     'application/x-www-form-urlencoded',

@@ -11,8 +11,7 @@ import { styled } from '@mui/material/styles';
 import { capitalCase } from 'change-case';
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-
-import { LoginForm } from './../../sections/auth/login';
+import { RegisterForm } from './../../sections/auth/login';
 import useAuth from './../../shared/hooks/useAuth';
 import useResponsive from './../../shared/hooks/useResponsive';
 import Page from './../../components/Page';
@@ -65,15 +64,15 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function LoginPage() {
+export default function RegisterPage() {
     const { method } = useAuth();
 
     const navigate = useNavigate();
-    
+
     const mdUp = useResponsive('up', 'md');
 
     return (
-        <Page title="Login">
+        <Page title="Register">
             <RootStyle>
                 <HeaderStyle>
                     <Logo />
@@ -88,7 +87,7 @@ export default function LoginPage() {
                         >
                             <Box sx={{ flexGrow: 1 }}>
                                 <Typography gutterBottom variant="h4">
-                                    Вход в CRM System
+                                    Создание нового аккаунта
                                 </Typography>
                                 <Typography sx={{ color: 'text.secondary' }}>
                                     Введите свои учетные данные ниже
@@ -102,14 +101,14 @@ export default function LoginPage() {
                                 <HowToRegIcon sx={{ height: 32, width: 32 }}/>
                             </Tooltip>
                         </Stack>
-                        <LoginForm />
+                        <RegisterForm />
                         <Stack
                             alignItems="center"
                         >
                             <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }} alignItems={"center"}>
-                                У вас нет аккаунта?{' '}
-                                <Button variant="text" onClick={() => navigate(PATH_AUTH.register)}>
-                                    Зарегистрироваться
+                                У вас уже есть аккаунт?{' '}
+                                <Button variant="text" onClick={() => navigate(PATH_AUTH.login)}>
+                                    Войти
                                 </Button>
                             </Typography>
                         </Stack>
