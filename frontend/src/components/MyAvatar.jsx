@@ -1,0 +1,26 @@
+import { useUserInfo } from './../entities/user';
+import createAvatar from './../shared/utils/createAvatar';
+import React from 'react';
+
+//
+import Avatar from './Avatar';
+
+// ----------------------------------------------------------------------
+
+export default function MyAvatar({ ...other }) {
+    const { data: user } = useUserInfo();
+
+    const userDisplayName = user?.name?.displayName;
+    const userAvatar = user?.name?.avatar;
+
+    return (
+        <Avatar
+            alt={userDisplayName}
+            color={userAvatar ? 'default' : createAvatar(userDisplayName).color}
+            src={userAvatar}
+            {...other}
+        >
+            {createAvatar(userDisplayName).name}
+        </Avatar>
+    );
+}
