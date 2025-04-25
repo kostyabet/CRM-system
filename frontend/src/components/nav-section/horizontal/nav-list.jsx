@@ -123,14 +123,16 @@ export function NavList({ data, depth, render, cssVars, slotProps, enabledRootRe
               ...slotProps?.paper,
             }}
           >
-            <NavSubList
-              data={data.children}
-              depth={depth}
-              render={render}
-              cssVars={cssVars}
-              slotProps={slotProps}
-              enabledRootRedirect={enabledRootRedirect}
-            />
+            <NavUl sx={{ gap: 0.5 }}>
+              <NavSubList
+                data={data.children}
+                depth={depth}
+                render={render}
+                cssVars={cssVars}
+                slotProps={slotProps}
+                enabledRootRedirect={enabledRootRedirect}
+              />  
+            </NavUl>
           </Paper>
         </Popover>
       </NavLi>
@@ -147,15 +149,17 @@ function NavSubList({ data, depth, render, cssVars, slotProps, enabledRootRedire
   return (
     <NavUl sx={{ gap: 0.5 }}>
       {data.map((list) => (
-        <NavList
-          key={list.title}
-          data={list}
-          render={render}
-          depth={depth + 1}
-          cssVars={cssVars}
-          slotProps={slotProps}
-          enabledRootRedirect={enabledRootRedirect}
-        />
+        <NavUl key={list.title} disabled={list.disabled}>
+          <NavList
+            key={list.title}
+            data={list}
+            render={render}
+            depth={depth + 1}
+            cssVars={cssVars}
+            slotProps={slotProps}
+            enabledRootRedirect={enabledRootRedirect}
+          />
+        </NavUl>
       ))}
     </NavUl>
   );

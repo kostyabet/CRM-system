@@ -100,14 +100,16 @@ function NavSubList({ data, render, depth, slotProps, enabledRootRedirect }) {
   return (
     <NavUl sx={{ gap: 'var(--nav-item-gap)' }}>
       {data.map((list) => (
-        <NavList
-          key={list.title}
-          data={list}
-          render={render}
-          depth={depth + 1}
-          slotProps={slotProps}
-          enabledRootRedirect={enabledRootRedirect}
-        />
+        <NavLi key={list.title} disabled={list.disabled}>
+          <NavList
+            key={list.title}
+            data={list}
+            render={render}
+            depth={depth + 1}
+            slotProps={slotProps}
+            enabledRootRedirect={enabledRootRedirect}
+          />
+        </NavLi>
       ))}
     </NavUl>
   );

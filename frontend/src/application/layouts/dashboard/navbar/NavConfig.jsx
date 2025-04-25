@@ -46,6 +46,16 @@ const navConfig = [
         ],
         subheader: '',
     },
+    {
+        items: [
+            {
+                icon: ICONS.dashboard,
+                path: PATH_DASHBOARD.user.profile,
+                title: 'Профиль'
+            }
+        ],
+        subheader: 'Пользватели',
+    },
 ];
 
 export default navConfig;
