@@ -1,28 +1,40 @@
-const bcrypt = require('bcryptjs');
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelizeString = require('./../config/sequelizeString');
+const sequelize = new Sequelize(sequelizeString);
 
-const users = []; // Это будет временная "база данных"
-
-class User {
-  constructor(email, password) {
-    this.email = email;
-    this.password = password;
+const User = sequelize.define('t_users', {
+  login: {
+    type: DataTypes.STRING,
+    unique: true,
+    allowNull: false,
+  },
+  password: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  firstName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  lastName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      isEmail: true,
+    },
+  },
+  role: {
+    type: DataTypes.STRING,
+    allowNull: false,
   }
+});
 
-  static async findOne({ email }) {
-    return users.find(user => user.email === email);
-  }
-
-  static async save(user) {
-    users.push(user);
-  }
-
-  static async hashPassword(password) {
-    return bcrypt.hash(password, 10);
-  }
-
-  async comparePassword(password) {
-    return bcrypt.compare(password, this.password);
-  }
-}
-
-module.exports = User;
+module.exports = { User, sequelize };
