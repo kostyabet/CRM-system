@@ -76,7 +76,7 @@ export default function ProfileCover({ user }) {
             </InfoStyle>
             <Image
                 alt="profile cover"
-                src={'/assets/profilebg.webp'}
+                src={'/assets/phone.jpg'}
                 sx={{
                     bottom: 0,
                     left: 0,

@@ -49,7 +49,7 @@ const navConfig = [
     {
         items: [
             {
-                icon: ICONS.dashboard,
+                icon: ICONS.user,
                 path: PATH_DASHBOARD.user.profile,
                 title: 'Профиль'
             }
