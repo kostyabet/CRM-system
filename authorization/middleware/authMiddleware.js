@@ -1,17 +1,21 @@
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../config/config');
 
-module.exports = (req, res, next) => {
-  const token = req.header('Authorization')?.replace('Bearer ', '');
+const accessTokenSecret = process.env.ACCESSTOKENSECRET;
+
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader?.split(' ')[1];
+
   if (!token) {
-    return res.status(401).json({ message: 'No token, authorization denied' });
+    return res.status(401).json({ message: 'Токен отсутствует' });
   }
 
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET);
+  jwt.verify(token, accessTokenSecret, (err, decoded) => {
+    if (err) return res.status(403).json({ message: 'Недействительный токен' });
+
     req.user = decoded;
     next();
-  } catch (err) {
-    res.status(401).json({ message: 'Token is not valid' });
-  }
+  });
 };
+
+module.exports = { authenticateToken };
