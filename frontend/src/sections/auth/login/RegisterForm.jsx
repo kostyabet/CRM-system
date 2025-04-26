@@ -22,7 +22,6 @@ export default function RegisterForm() {
     const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
-    const [errorTitle, setErrorTitle] = useState('');
 
     const LoginSchema = Yup.object().shape({
         login: Yup.string().required('Login is required'),
@@ -66,8 +65,6 @@ export default function RegisterForm() {
             await register(data);
             navigate(PATH_AUTH.login);
         } catch (error) {
-            console.log(error)
-            setErrorTitle(error.response.data.message);
             reset();
             if (isMountedRef.current) {
                 setError('afterSubmit', { ...error, message: error.message });
@@ -115,12 +112,6 @@ export default function RegisterForm() {
                 <RHFTextField label="Номер телефона" name="phone" />
                 <RHFTextField label="Почта" name="email" />
                 <RHFTextField label="Роль" name="role" />
-            </Stack>
-
-            <Stack sx={{ mb: 3 }}>
-                {errorTitle && (
-                    <Alert severity="error">{errorTitle}</Alert>
-                )}
             </Stack>
 
             <Button

@@ -5,7 +5,6 @@ import { Alert, IconButton, InputAdornment, Stack, Typography } from '@mui/mater
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
-import { useSnackbar } from 'notistack';
 
 import useAuth from './../../../shared/hooks/useAuth'
 import useIsMountedRef from './../../../shared/hooks/useIsMountedRef';
@@ -18,9 +17,6 @@ export default function LoginForm() {
     const isMountedRef = useIsMountedRef();
 
     const [showPassword, setShowPassword] = useState(false);
-    const [errorTitle, setErrorTitle] = useState('');
-
-    const { enqueueSnackbar } = useSnackbar();
 
     const LoginSchema = Yup.object().shape({
         login: Yup.string().required('Login is required'),
@@ -49,7 +45,6 @@ export default function LoginForm() {
         try {
             await login(data.login, data.password);
         } catch (error) {
-            setErrorTitle(error.response.data.message);
             reset();
             if (isMountedRef.current) {
                 setError('afterSubmit', { ...error, message: error.message });
@@ -91,12 +86,6 @@ export default function LoginForm() {
                     name="password"
                     type={showPassword ? 'text' : 'password'}
                 />
-            </Stack>
-
-            <Stack sx={{ mb: 3 }}>
-                {errorTitle && (
-                    <Alert severity="error">{errorTitle}</Alert>
-                )}
             </Stack>
 
             <Button
