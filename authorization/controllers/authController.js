@@ -87,7 +87,7 @@ exports.login = async (req, res) => {
 }
 
 exports.refreshToken = async (req, res) => {
-  const { refreshToken } = req.body;
+  const { token: refreshToken } = req.body;
 
   if (!refreshToken) {
     return res.status(401).json({ message: 'Refresh токен отсутствует' });
