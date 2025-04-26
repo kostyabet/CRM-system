@@ -9,6 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors({
   origin: 'http://localhost:4000',
+  origin: 'http://localhost:3000',
   credentials: true
 }));
 
