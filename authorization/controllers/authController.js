@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { User } = require('../models/User');
+const { User } = require('../models/user');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
@@ -27,6 +27,7 @@ exports.register = async (req, res) => {
     const { login, password, firstName, lastName, phone, email, role } = req.body;
     
     const existing = await User.findOne({ where: { login } });
+
     if (existing) {
       return res.status(400).json({ message: `Пользователь с таким login: ${login} уже существует.` });
     }
@@ -52,22 +53,21 @@ exports.register = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Ошибка регистрации:', err);
+    console.error('Ошибка регистрации:', error);
     res.status(500).json({ message: 'Ошибка сервера' });
   }
 }
 
 exports.login = async (req, res) => {
   try {
-    const { login, password } = req.body;
+    const { login, pass: password } = req.body;
 
     const user = await User.findOne({ where: { login } });
     if (!user) {
       return res.status(401).json({ message: `Пользователь с login: ${login} не найден.` });
     }
 
-    const hash_password = await bcrypt.hash(password, 10);
-    const isMatch = await bcrypt.compare(hash_password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Неверный пароль' });
     }
@@ -76,6 +76,7 @@ exports.login = async (req, res) => {
 
     res.status(200).json({
       message: 'Успешный вход',
+      user,
       accessToken,
       refreshToken,
     });
