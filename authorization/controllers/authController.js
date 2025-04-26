@@ -109,7 +109,7 @@ exports.refreshToken = async (req, res) => {
 
 exports.me = async (req, res) => {
   try {
-    const user = await User.findByPk(req.id, {
+    const user = await User.findByPk(req.user.id, {
       attributes: { exclude: ['password'] }
     });
 

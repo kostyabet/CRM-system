@@ -12,6 +12,7 @@ import useIsMountedRef from './../../../shared/hooks/useIsMountedRef';
 import Iconify from './../../../components/Iconify';
 import { FormProvider, RHFTextField } from './../../../components/hook-form';
 import { useNavigate } from 'react-router-dom';
+import { PATH_AUTH } from './../../../application/router/paths';
 
 export default function RegisterForm() {
     const { register } = useAuth();
@@ -61,9 +62,11 @@ export default function RegisterForm() {
 
     const onSubmit = async (data) => {
         try {
+            console.log(data);
             await register(data);
             navigate(PATH_AUTH.login);
         } catch (error) {
+            console.log(error)
             setErrorTitle(error.response.data.message);
             reset();
             if (isMountedRef.current) {

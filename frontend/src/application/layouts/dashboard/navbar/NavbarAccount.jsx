@@ -29,7 +29,7 @@ NavbarAccount.propTypes = {
 
 export default function NavbarAccount({ isCollapse }) {
     const { data: user } = useUserInfo();
-
+    console.log(user);
     return (
         <Link
             color="inherit"
@@ -61,14 +61,14 @@ export default function NavbarAccount({ isCollapse }) {
                     }}
                 >
                     <Typography noWrap variant="subtitle2">
-                        {user?.name?.displayName}
+                        {user?.firstName}
                     </Typography>
                     <Typography
                         noWrap
                         sx={{ color: 'text.secondary' }}
                         variant="body2"
                     >
-                        Профиль{/* {user?.role?.name} */}
+                        {user?.role}
                     </Typography>
                 </Box>
             </RootStyle>

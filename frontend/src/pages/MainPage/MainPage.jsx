@@ -18,7 +18,7 @@ export default function MainPage() {
             <Container maxWidth={themeStretch ? false : 'xl'}>
                 <Box>
                     <Typography gutterBottom variant="h4">
-                        👋 Привет, {user?.name.firstName}
+                        👋 Привет, {user?.firstName}
                     </Typography>
                 </Box>
                 This is text message!

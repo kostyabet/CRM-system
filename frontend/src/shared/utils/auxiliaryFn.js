@@ -264,7 +264,7 @@ export const calcSubrent = (arr) => {
 
 export const userFullName = (user) => {
     if (!user) return '';
-    return `${user?.name?.firstName} ${user?.name?.lastName}`;
+    return `${user?.firstName} ${user?.lastName}`;
 };
 
 export const getFirstAndLastDayOfMonth = (input) => {

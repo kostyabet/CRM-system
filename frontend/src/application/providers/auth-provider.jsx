@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import { setSession } from '~/shared/utils/jwt';
 import { httpClient } from '~/shared/api';
+import { useQueryClient } from '@tanstack/react-query';
 
 const initialState = {
     isAuthenticated: false,
@@ -42,6 +43,7 @@ const reducer = (state, action) =>
 
 function AuthProvider({ children }) {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         const initialize = async () => {
@@ -77,7 +79,7 @@ function AuthProvider({ children }) {
     }, []);
 
     const register = async (data) => {
-        await httpClient.post('/auth/register', data);
+        // await httpClient.post('/auth/register', data);
     }
 
     const login = async (login, pass) => {
@@ -85,8 +87,9 @@ function AuthProvider({ children }) {
             login,
             pass,
         });
-        const { accessToken, refreshToken } = response.data;
+        const { accessToken, refreshToken, user } = response.data;
         setSession(accessToken, refreshToken);
+        queryClient.setQueryData(['me'], user);
 
         dispatch({ type: 'LOGIN' });
     }

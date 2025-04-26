@@ -30,7 +30,7 @@ export default function NavbarDocs() {
 
             <div>
                 <Typography gutterBottom variant="subtitle1">
-                    {translate('docs.hi')}, {user?.name?.displayName}
+                    {translate('docs.hi')}, {user?.firstName}
                 </Typography>
                 <Typography
                     sx={{ color: 'text.secondary', whiteSpace: 'pre-line' }}

@@ -10,7 +10,7 @@ import Avatar from './Avatar';
 export default function MyAvatar({ ...other }) {
     const { data: user } = useUserInfo();
 
-    const userDisplayName = user?.name?.displayName;
+    const userDisplayName = user?.firstName;
     const userAvatar = user?.name?.avatar;
 
     return (

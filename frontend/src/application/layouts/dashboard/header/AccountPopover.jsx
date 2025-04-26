@@ -31,8 +31,7 @@ export default function AccountPopover() {
     const navigate = useNavigate();
 
     const { logout } = useAuth();
-    // const { data: user } = useUserInfo();
-    const user = useUserInfo();
+    const { data: user } = useUserInfo();
     
     const isMountedRef = useIsMountedRef();
 
@@ -110,7 +109,7 @@ export default function AccountPopover() {
             >
                 <Box sx={{ my: 1.5, px: 2.5 }}>
                     <Typography noWrap variant="subtitle2">
-                        {user?.name?.displayName}
+                        {user?.firstName}
                     </Typography>
                     <Typography
                         noWrap

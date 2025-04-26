@@ -98,7 +98,7 @@ export default function ProfilePostCard({ post }) {
                         to="#"
                         variant="subtitle2"
                     >
-                        {user?.name?.displayName}
+                        {user?.firstName}
                     </Link>
                 }
             />

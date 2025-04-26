@@ -46,7 +46,7 @@ ProfileCover.propTypes = {
 };
 
 export default function ProfileCover({ user }) {
-    const { name, role } = user;
+    const { firstName, role } = user;
 
     return (
         <RootStyle>
@@ -60,7 +60,7 @@ export default function ProfileCover({ user }) {
                         mx: 'auto',
                         width: { md: 128, xs: 80 },
                     }}
-                    userNameFields={name}
+                    userNameFields={firstName}
                 />
                 <Box
                     sx={{
@@ -71,7 +71,7 @@ export default function ProfileCover({ user }) {
                     }}
                 >
                     <Typography variant="h4">{userFullName(user)}</Typography>
-                    <Typography sx={{ opacity: 0.72 }}>{role?.name}</Typography>
+                    <Typography sx={{ opacity: 0.72 }}>{role}</Typography>
                 </Box>
             </InfoStyle>
             <Image

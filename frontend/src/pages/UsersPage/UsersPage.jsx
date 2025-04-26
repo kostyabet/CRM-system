@@ -11,9 +11,10 @@ import HeaderBreadcrumbs from './../../components/HeaderBreadcrumbs';
 import Page from './../../components/Page';
 import useSettings from './../../shared/hooks/useSettings';
 import useTabs from './../../shared/hooks/useTabs';
-import SvgIconStyle from '~/components/SvgIconStyle';
 import { userFullName } from '~/shared/utils/auxiliaryFn';
 import ScheduleIcon from '@mui/icons-material/Schedule';
+import InfoIcon from '@mui/icons-material/Info';
+import UserInfo from '~/components/UserInfo';
 
 // ----------------------------------------------------------------------
 
@@ -38,21 +39,27 @@ const TabsWrapperStyle = styled('div')(({ theme }) => ({
 export default function UserProfile() {
     const { enqueueSnackbar } = useSnackbar();
     const { themeStretch } = useSettings();
-    // const { data: user } = useUserInfo();
-    const user = useUserInfo();
+    const { data: user } = useUserInfo();
     const param = useParams();
     const paramId = param?.id ? +param.id : param?.id;
 
 
-    const { currentTab, onChangeTab } = useTabs('Мои задачи');
+    const { currentTab, onChangeTab } = useTabs('Задачи', 'Информация');
 
     const PROFILE_TABS = [
         {
-            component: <p>sdfsdf</p>,//<GantCalendarProjects userId={userData.id} />,
+            component: <p>Задачи</p>,//<GantCalendarProjects userId={userData.id} />,
             icon: (
                 <ScheduleIcon sx={{ height: 20, width: 20 }}/>
             ),
-            value: 'Мои задачи',
+            value: 'Задачи',
+        },
+        {
+            component: <UserInfo user={user}/>,
+            icon: (
+                <InfoIcon sx={{ height: 20, width: 20 }}/>
+            ),
+            value: 'Информация',
         },
     ];
 
