@@ -8,7 +8,7 @@ const authRoutes = require('./routes/authRoutes');
 const app = express();
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'http://localhost:4000',
+  origin: ['http://localhost:4000', 'http://localhost:3000'],
   credentials: true
 }));
 
@@ -21,7 +21,7 @@ sequelize.sync() // { force: true } если хочешь пересоздава
 app.use('/auth', authRoutes);
 
 // Start the server
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, err => {
   if (err) {
     console.error('Error starting server:', err);
