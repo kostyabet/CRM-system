@@ -37,6 +37,8 @@ services:
     depends_on:
       - db
     environment:
+      ACCESSTOKENSECRET: "GreatSecretForTokenAccessWith#-~"
+      REFRESHTOKENSECRET: "SomeRandomNewStringForRefreshTokenWithout~#-"
       DB_USER: postgres
       DB_PASSWORD: postgres
       DB_HOST: db
