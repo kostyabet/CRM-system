@@ -1,14 +1,14 @@
-const dbConfig = require('./database.json'); // путь до твоего JSON
+require('dotenv').config();
 
 const {
-  dbUser,
-  dbPassword,
-  dbHost,
-  dbPort,
-  dbName
-} = dbConfig;
+  DB_USER,
+  DB_PASSWORD,
+  DB_HOST,
+  DB_PORT,
+  DB_NAME
+} = process.env;
 
-const sequelizeString = `postgres://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}`;
+const sequelizeString = `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 
 console.log('Sequelize connection string:', sequelizeString);
 module.exports = sequelizeString;
