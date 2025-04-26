@@ -38,7 +38,7 @@ export function Router() {
                     path: 'register'    
                 }
             ],
-            path: 'auth',
+            path: 'authorization',
         },
         {
             children: [
