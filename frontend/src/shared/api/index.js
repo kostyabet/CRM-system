@@ -48,10 +48,6 @@ httpClient.interceptors.response.use(
                     axios
                         .post(`${API_URL}/auth/refresh`, {
                             token: refreshTokenStorage,
-                        }, {
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
                         })
                         .then(({ data }) => {
                             window.localStorage.setItem(
