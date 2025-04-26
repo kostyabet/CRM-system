@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API_URL } from './../../application/config';
 import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 export const httpClient = axios.create({
     baseURL: API_URL,
@@ -66,7 +67,9 @@ httpClient.interceptors.response.use(
                         })
                         .catch((err) => {
                             const { logout } = useAuth();
+                            const navigate = useNavigate();
                             logout();
+                            navigate('/authentication/login');
                             processQueue(err, null);
                             reject(err);
                         })
