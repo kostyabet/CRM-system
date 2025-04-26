@@ -79,7 +79,7 @@ function AuthProvider({ children }) {
     }, []);
 
     const register = async (data) => {
-        // await httpClient.post('/auth/register', data);
+        await httpClient.post('/auth/register', data);
     }
 
     const login = async (login, pass) => {
