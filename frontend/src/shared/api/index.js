@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API_URL } from './../../application/config';
 
+console.log(API_URL);
 export const httpClient = axios.create({
     baseURL: API_URL,
 });

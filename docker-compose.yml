@@ -50,6 +50,8 @@ services:
       - app-net
     ports:
       - "3000:80"
+    environment:
+      VITE_API_LOCAL: http:/gateway:80
 
 networks:
   app-net:
