@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { API_URL } from './../../application/config';
+import useAuth from '../hooks/useAuth';
 
-console.log(API_URL);
 export const httpClient = axios.create({
     baseURL: API_URL,
 });
@@ -65,6 +65,8 @@ httpClient.interceptors.response.use(
                             resolve(httpClient(originalRequest));
                         })
                         .catch((err) => {
+                            const { logout } = useAuth();
+                            logout();
                             processQueue(err, null);
                             reject(err);
                         })
