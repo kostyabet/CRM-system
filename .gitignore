@@ -4,3 +4,7 @@ node_modules/
 
 # action runner
 actions-runner/
+
+# coverage
+.idea/
+.vs/
