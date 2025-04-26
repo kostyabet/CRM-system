@@ -43,14 +43,16 @@ httpClient.interceptors.response.use(
                 }
                 originalRequest._isRetry = true; // set flag that request we are retrying
                 isRefreshing = true;
-                const refreshTokenStorage = localStorage.getItem('refreshToken');
+                const refreshTokenStorage =
+                    localStorage.getItem('refreshToken');
                 return new Promise((resolve, reject) => {
+                    const params = new URLSearchParams();
+                    params.append('token', refreshTokenStorage);
                     axios
-                        .post(`${API_URL}/auth/refresh`, {
-                            token: refreshTokenStorage,
-                        }, {
+                        .post(`${API_URL}/auth/refresh`, params, { // change update jwt url
                             headers: {
-                                'Content-Type': 'application/json',
+                                'content-type':
+                                    'application/x-www-form-urlencoded',
                             },
                         })
                         .then(({ data }) => {
