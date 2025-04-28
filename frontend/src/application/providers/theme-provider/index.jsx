@@ -18,6 +18,8 @@ import { customShadows } from './core/custom-shadows';
 import { useSettingsContext } from './../../../widgets/theme-settings/context/use-settings-context';
 import { updateCoreWithSettings } from './with-settings/update-theme';
 
+import { RTL } from './with-settings/right-to-left';
+
 ThemeProvider.propTypes = {
     children: PropTypes.node,
 };
@@ -52,10 +54,9 @@ export function ThemeProvider({ children }) {
         <StyledEngineProvider injectFirst>
             <MUIThemeProvider theme={updatedTheme}>
                 <CssBaseline />
-                {children}
-        {/* //         <RTL direction={settings.themeDirection}>
-        //             {children}
-        //         </RTL> */}
+                <RTL direction={settings.themeDirection}>
+                    {children}
+                </RTL>
             </MUIThemeProvider>
         </StyledEngineProvider>
     );
