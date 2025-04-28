@@ -29,7 +29,7 @@ NavbarAccount.propTypes = {
 
 export default function NavbarAccount({ isCollapse }) {
     const { data: user } = useUserInfo();
-    console.log(user);
+
     return (
         <Link
             color="inherit"
