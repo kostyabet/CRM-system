@@ -9,6 +9,8 @@ export const httpClient = axios.create({
 
 let isRefreshing = false;
 let failedQueue = [];
+const { logout } = useAuth();
+const navigate = useNavigate();
 
 const processQueue = (error, token = null) => {
     failedQueue.forEach((prom) => {
@@ -66,9 +68,6 @@ httpClient.interceptors.response.use(
                             resolve(httpClient(originalRequest));
                         })
                         .catch((err) => {
-                            console.log("ERROR IN TOKEN !!!!", err);
-                            const { logout } = useAuth();
-                            const navigate = useNavigate();
                             logout();
                             navigate('/authentication/login');
                             processQueue(err, null);
