@@ -28,6 +28,7 @@ import ToggleButton from '../ToggleButton';
 
 export function SettingsDrawer({
   sx,
+  hideFontSize,
   hideFont,
   hideCompact,
   hidePresets,
@@ -158,11 +159,11 @@ export function SettingsDrawer({
 
   const renderFontSize = (
     <FontSizeOption
-      onChangeOption={null}
-      minOption={12}
-      maxOption={96}
-      step={8}
-      currentValue={0}
+      onChangeOption={(value) => settings.onUpdateField('fontSize', value)}
+      minOption={4}
+      maxOption={28}
+      step={2}
+      currentValue={settings.fontSize}
     />
   );
 
@@ -201,7 +202,7 @@ export function SettingsDrawer({
             {!(hideNavLayout && hideNavColor) && renderNav}
             {!hidePresets && renderPresets}
             {!hideFont && renderFont}
-            {renderFontSize}
+            {!hideFontSize && renderFontSize}
           </Stack>
         </Scrollbar>
       </Drawer>
