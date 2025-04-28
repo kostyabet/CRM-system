@@ -14,6 +14,7 @@ export default ({ mode }) => {
   const outputDir = 'build';
 
   return defineConfig({
+    base: '/',
     build: {
       commonjsOptions: {
           transformMixedEsModules: true,
