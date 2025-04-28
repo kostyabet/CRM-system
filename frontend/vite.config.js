@@ -20,12 +20,13 @@ export default ({ mode }) => {
           transformMixedEsModules: true,
       },
       rollupOptions: {
-          input: {
-              app: resolve(__dirname, 'index.html'),
-          },
-          output: {
-              dir: resolve(__dirname, outputDir),
-          },
+        input: {
+            app: resolve(__dirname, 'index.html'),
+        },
+        output: {
+            dir: resolve(__dirname, outputDir),
+        },
+        external: ['stylis-plugin-rtl']
       },
     },
     resolve: {
