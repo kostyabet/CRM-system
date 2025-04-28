@@ -8,6 +8,14 @@ import Iconify from './../../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
+const RefIconify = React.forwardRef((props, ref) => 
+  <Iconify
+    width={14}
+    icon="eva:info-outline"
+    sx={{ ml: 0.5, mr: -0.5, opacity: 0.48, cursor: 'pointer' }}
+  />
+);
+
 export function Block({ title, tooltip, children, sx }) {
   return (
     <Box
@@ -45,11 +53,7 @@ export function Block({ title, tooltip, children, sx }) {
 
         {tooltip && (
           <Tooltip title={tooltip} placement="right">
-            <Iconify
-              width={14}
-              icon="eva:info-outline"
-              sx={{ ml: 0.5, mr: -0.5, opacity: 0.48, cursor: 'pointer' }}
-            />
+            <RefIconify />
           </Tooltip>
         )}
       </Box>

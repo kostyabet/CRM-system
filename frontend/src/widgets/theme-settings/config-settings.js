@@ -14,5 +14,5 @@ export const defaultSettings = {
   navColor: 'integrate',
   themeStretch: true,
   fontFamily: defaultFont,
-  fontSize: 16,
+  fontSizeOption: 16,
 };

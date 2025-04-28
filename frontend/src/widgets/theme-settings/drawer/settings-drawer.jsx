@@ -159,11 +159,11 @@ export function SettingsDrawer({
 
   const renderFontSize = (
     <FontSizeOption
-      onChangeOption={(value) => settings.onUpdateField('fontSize', value)}
+      onChangeOption={(value) => settings.onUpdateField('fontSizeOption', value)}
       minOption={4}
       maxOption={28}
       step={2}
-      currentValue={settings.fontSize}
+      currentValue={settings.fontSizeOption}
     />
   );
 

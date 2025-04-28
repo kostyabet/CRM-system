@@ -13,7 +13,7 @@ import React from 'react';
 export function FontOptions({ value, options, onClickOption }) {
   return (
     <Block title="Font">
-      <Box component="li" gap={1.5} display="grid" gridTemplateColumns="repeat(2, 1fr)">
+      <Box component="ul" gap={1.5} display="grid" gridTemplateColumns="repeat(2, 1fr)">
         {options.map((option) => {
           const selected = value === option;
 
