@@ -13,6 +13,7 @@ import { paper, varAlpha } from './../../../application/providers/theme-provider
 import PRIMARY_COLOR from './../../../application/providers/theme-provider/with-settings/primary-color.json';
 import Scrollbar from './../../../components/Scrollbar';
 import Iconify from './../../../components/Iconify';
+import { defaultFont } from '~/application/providers/theme-provider/core/typography';
 
 import { FontSizeOption } from './fontsize-option';
 import { BaseOption } from './base-option';
@@ -20,6 +21,7 @@ import { NavOptions } from './nav-options';
 import { useSettingsContext } from '../context';
 import { PresetsOptions } from './presets-options';
 import { FullScreenButton } from './fullscreen-button';
+import { FontOptions } from './font-options';
 import ToggleButton from '../ToggleButton';
 
 // ----------------------------------------------------------------------
@@ -146,6 +148,14 @@ export function SettingsDrawer({
     />
   );
 
+  const renderFont = (
+    <FontOptions
+      value={settings.fontFamily}
+      onClickOption={(newValue) => settings.onUpdateField('fontFamily', newValue)}
+      options={[defaultFont, 'Inter', 'DM Sans', 'Nunito Sans']}
+    />
+  );
+
   const renderFontSize = (
     <FontSizeOption
       onChangeOption={null}
@@ -190,6 +200,7 @@ export function SettingsDrawer({
             </Box>
             {!(hideNavLayout && hideNavColor) && renderNav}
             {!hidePresets && renderPresets}
+            {!hideFont && renderFont}
             {renderFontSize}
           </Stack>
         </Scrollbar>
