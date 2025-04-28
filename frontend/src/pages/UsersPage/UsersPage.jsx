@@ -14,7 +14,7 @@ import useTabs from './../../shared/hooks/useTabs';
 import { userFullName } from '~/shared/utils/auxiliaryFn';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import InfoIcon from '@mui/icons-material/Info';
-import UserInfo from '~/components/UserInfo';
+import UserInfoCard from '~/components/user/UserInfoCard';
 
 // ----------------------------------------------------------------------
 
@@ -55,7 +55,7 @@ export default function UserProfile() {
             value: 'Задачи',
         },
         {
-            component: <UserInfo user={user}/>,
+            component: <UserInfoCard user={user}/>,
             icon: (
                 <InfoIcon sx={{ height: 20, width: 20 }}/>
             ),
