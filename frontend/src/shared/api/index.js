@@ -66,6 +66,7 @@ httpClient.interceptors.response.use(
                             resolve(httpClient(originalRequest));
                         })
                         .catch((err) => {
+                            console.log("ERROR IN TOKEN !!!!", err);
                             const { logout } = useAuth();
                             const navigate = useNavigate();
                             logout();
