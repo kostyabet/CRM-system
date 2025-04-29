@@ -4,3 +4,8 @@ export const fetchUserInfo = async () => {
     const response = await httpClient.get('/auth/me');
     return response.data;
 };
+
+export const fetchUpdateUser = async (userData) => {
+    const response = await httpClient.put('/auth/me', userData);
+    return response.data;
+}

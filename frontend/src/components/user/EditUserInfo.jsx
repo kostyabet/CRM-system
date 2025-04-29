@@ -11,6 +11,7 @@ import { FormProvider, RHFTextField } from '~/components/hook-form';
 import * as Yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { fetchUpdateUser } from '~/entities/user/api';
 
 export const EditUserInfo = ({ 
     user,
@@ -49,8 +50,14 @@ export const EditUserInfo = ({
 
     const { handleSubmit, reset } = methods;
 
-    const onSubmit = (values) => {
-        console.log(values);
+    const onSubmit = async (values) => {
+        const data = await fetchUpdateUser(values);
+        if (data) {
+            enqueueSnackbar('Данные успешно обновлены', { variant: 'success' });
+            onCancel();
+        } else {
+            enqueueSnackbar('Ошибка при обновлении данных', { variant: 'error' });
+        }
     }
 
     return(
