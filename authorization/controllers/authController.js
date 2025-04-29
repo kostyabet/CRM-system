@@ -132,3 +132,38 @@ exports.me = async (req, res) => {
     res.status(500).json({ message: 'Ошибка сервера' });
   }
 }
+
+exports.update = async (req, res) => {
+  try {
+    const { login, firstName, lastName, phone, email, role } = req.body;
+    
+    console.log(req.body, 'req.body');
+    console.log(req.user, 'req.user');
+
+    const user = await User.findByPk(req.user.id, {
+      attributes: { exclude: ['password'] }
+    });
+    if (!user) {
+      return res.status(404).json({ message: 'Пользователь не найден' });
+    }
+
+    if (login && login !== user.login) {
+      const existingUser = await User.findOne({ where: { login } });
+      if (existingUser) {
+        return res.status(400).json({ message: 'Этот логин уже занят' });
+      }
+    }
+
+    user.login = login || user.login;
+    user.firstName = firstName || user.firstName;
+    user.lastName = lastName || user.lastName;
+    user.phone = phone || user.phone;
+    user.email = email || user.email;
+    user.photoURL = photoURL || user.photoURL;
+    await user.save();
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: 'Ошибка сервера' });
+  }
+}
