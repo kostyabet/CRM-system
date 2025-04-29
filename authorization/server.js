@@ -14,7 +14,7 @@ app.use(cors({
 }));
 
 // Sequelize
-sequelize.sync() // { force: true } если хочешь пересоздавать
+sequelize.sync({ alter: true }) // { force: true } если хочешь пересоздавать
   .then(() => console.log('Таблицы синхронизированы'))
   .catch(err => console.error('Ошибка синхронизации', err));
 
