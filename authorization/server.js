@@ -20,6 +20,9 @@ sequelize.sync() // { force: true } если хочешь пересоздава
 // Import and use the auth routes
 app.use('/auth', authRoutes);
 
+// Serve static files from the uploads directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, err => {
