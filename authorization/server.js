@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { sequelize } = require('./models/user');
 const authRoutes = require('./routes/authRoutes');
+const path = require('path');
 
 // Initialize the express app and middleware
 const app = express();
