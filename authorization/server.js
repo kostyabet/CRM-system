@@ -22,7 +22,7 @@ sequelize.sync({ alter: true }) // { force: true } если хочешь пер�
 app.use('/auth', authRoutes);
 
 // Serve static files from the uploads directory
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'routes', 'uploads')));
 
 // Start the server
 const PORT = process.env.PORT || 5000;
