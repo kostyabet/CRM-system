@@ -49,8 +49,14 @@ export const EditUserInfo = ({
 
     const { handleSubmit, reset } = methods;
 
-    const onSubmit = (values) => {
-        console.log(values);
+    const onSubmit = async (values) => {
+        const data = await fetchUpdateUser(values);
+        if (data) {
+            enqueueSnackbar('Данные успешно обновлены', { variant: 'success' });
+            onCancel();
+        } else {
+            enqueueSnackbar('Ошибка при обновлении данных', { variant: 'error' });
+        }
     }
 
     return(
