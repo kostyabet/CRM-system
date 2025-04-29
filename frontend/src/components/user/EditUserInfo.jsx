@@ -11,6 +11,7 @@ import { FormProvider, RHFTextField } from '~/components/hook-form';
 import * as Yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { fetchUpdateUser } from '~/entities/user/api';
 
 export const EditUserInfo = ({ 
     user,
