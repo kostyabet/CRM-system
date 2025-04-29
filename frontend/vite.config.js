@@ -26,7 +26,6 @@ export default ({ mode }) => {
         output: {
             dir: resolve(__dirname, outputDir),
         },
-        external: ['stylis-plugin-rtl']
       },
     },
     resolve: {

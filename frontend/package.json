@@ -36,6 +36,7 @@
     "react-image-lightbox": "^5.1.4",
     "react-lazy-load-image-component": "^1.6.3",
     "react-router-dom": "^7.5.0",
+    "stylis-plugin-rtl": "^2.1.1",
     "yup": "^1.6.1"
   },
   "devDependencies": {
