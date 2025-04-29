@@ -14,7 +14,7 @@ export default function UserInfoCard({
     const [isEditing, setIsEditing] = useState(false);
 
     return (
-        <Card sx={{ p: 3, mb: 3 }}>
+        <Card sx={{ p: 3, mb: 3, width: '100%' }}>
             <Stack spacing={2}>
                 <Typography variant="h6" gutterBottom>
                     {!isEditing 
@@ -24,15 +24,12 @@ export default function UserInfoCard({
                 </Typography>
                 {!isEditing
                     ? <UserInfo user={user} />
-                    : <EditUserInfo user={user} />
+                    : <EditUserInfo user={user} onCancel={() => setIsEditing(false)}/>
                 }
             </Stack>
-            <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={() => setIsEditing(!isEditing)}>
-                {!isEditing 
-                    ? "Редактировать информацию"
-                    : "Сохранить изменения"
-                }
-            </Button>
+            {!isEditing && <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={() => setIsEditing(!isEditing)}>
+                Редактировать информацию
+            </Button>}
         </Card>
     )
 }

@@ -13,6 +13,12 @@ export const UserInfo = ({
                 Логин: {user?.login}
             </Typography>
             <Typography variant="body1" gutterBottom>
+                Имя: {user?.firstName}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+                Фамилия: {user?.lastName}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
                 Номер телефона: {user?.phone}
             </Typography>
             <Typography variant="body1" gutterBottom>
