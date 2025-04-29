@@ -8,5 +8,6 @@ router.post('/register', upload.single('photoURL'), authController.register);
 router.post('/login', authController.login);
 router.get('/me', authenticateToken, authController.me);
 router.post('/refresh', authController.refreshToken);
+router.put('/update', authenticateToken, authController.update)
 
 module.exports = router;
