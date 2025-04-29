@@ -3,6 +3,10 @@ const sequelizeString = require('./../config/sequelizeString');
 const sequelize = new Sequelize(sequelizeString);
 
 const User = sequelize.define('t_users', {
+  photoURL: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   login: {
     type: DataTypes.STRING,
     unique: true,
