@@ -50,7 +50,7 @@ export default function UserProfile() {
         {
             component: <p>Задачи</p>,//<GantCalendarProjects userId={userData.id} />,
             icon: (
-                <ScheduleIcon sx={{ height: 20, width: 20 }}/>
+                <ScheduleIcon sx={{ ml: 1, height: 20, width: 20 }}/>
             ),
             value: 'Задачи',
         },

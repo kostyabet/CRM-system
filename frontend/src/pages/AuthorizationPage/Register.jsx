@@ -3,12 +3,10 @@ import {
     Card,
     Container,
     Stack,
-    Tooltip,
     Typography,
     Button
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { capitalCase } from 'change-case';
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { RegisterForm } from './../../sections/auth/login';
@@ -16,8 +14,7 @@ import useAuth from './../../shared/hooks/useAuth';
 import useResponsive from './../../shared/hooks/useResponsive';
 import Page from './../../components/Page';
 import Logo from './../../components/Logo';
-import HowToRegIcon from '@mui/icons-material/HowToReg';
-import { PATH_AUTH, PATH_DASHBOARD } from './../../application/router/paths';
+import { PATH_AUTH } from './../../application/router/paths';
 
 // ----------------------------------------------------------------------
 
@@ -93,13 +90,6 @@ export default function RegisterPage() {
                                     Введите свои учетные данные ниже
                                 </Typography>
                             </Box>
-
-                            <Tooltip
-                                placement="right"
-                                title={capitalCase(method)}
-                            >
-                                <HowToRegIcon sx={{ height: 32, width: 32 }}/>
-                            </Tooltip>
                         </Stack>
                         <RegisterForm />
                         <Stack

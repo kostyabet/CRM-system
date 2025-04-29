@@ -1,18 +1,17 @@
 import React from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Grid } from '@mui/material';
 import Button from '@mui/material/Button';
 import { Alert, IconButton, InputAdornment, Stack, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
-import { Card } from '@mui/material';
 import useAuth from './../../../shared/hooks/useAuth'
 import useIsMountedRef from './../../../shared/hooks/useIsMountedRef';
 import Iconify from './../../../components/Iconify';
-import { FormProvider, RHFTextField } from './../../../components/hook-form';
+import { FormProvider, RHFTextField, RHFUploadAvatar } from './../../../components/hook-form';
 import { useNavigate } from 'react-router-dom';
 import { PATH_AUTH } from './../../../application/router/paths';
+import { fData } from '~/shared/utils/formatNumber';
 
 export default function RegisterForm() {
     const { register } = useAuth();
@@ -38,13 +37,14 @@ export default function RegisterForm() {
     });
 
     const defaultValues = {
-        login: 'admin',
-        password: 'admin',
-        firstName: 'admin',
-        lastName: 'admin',
-        phone: '+375291234567',
-        email: 'example@mail.ru',
-        role: 'admin',
+        photoURL: '',
+        login: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        phone: '',
+        email: '',
+        role: '',
     };
 
     const methods = useForm({
@@ -57,11 +57,11 @@ export default function RegisterForm() {
         handleSubmit,
         reset,
         setError,
+        setValue
     } = methods;
 
     const onSubmit = async (data) => {
         try {
-            console.log(data);
             await register(data);
             navigate(PATH_AUTH.login);
         } catch (error) {
@@ -72,9 +72,47 @@ export default function RegisterForm() {
         }
     };
 
+    const handleDrop = useCallback(
+        (acceptedFiles) => {
+            const file = acceptedFiles[0];
+
+            if (file) {
+                setValue(
+                    'photoURL',
+                    Object.assign(file, {
+                        preview: URL.createObjectURL(file),
+                    }),
+                );
+            }
+        },
+        [setValue],
+    );
+
     return (
         <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={2} sx={{ mb: 3 }}>
+                <RHFUploadAvatar
+                    accept="image/*"
+                    helperText={
+                        <Typography
+                            sx={{
+                                color: 'text.secondary',
+                                display: 'block',
+                                mt: 2,
+                                mx: 'auto',
+                                textAlign: 'center',
+                            }}
+                            variant="caption"
+                        >
+                            Файл формата *.jpeg, *.jpg, *.png, *.gif
+                            <br /> размером {fData(3145728)}
+                        </Typography>
+                    }
+                    maxSize={3145728}
+                    name="photoURL"
+                    onDrop={handleDrop}
+                />
+                
                 {!!errors.afterSubmit && (
                     <Alert severity="error">{errors.afterSubmit.message}</Alert>
                 )}
