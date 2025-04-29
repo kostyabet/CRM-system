@@ -32,6 +32,9 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: `Пользователь с таким login: ${login} уже существует.` });
     }
     
+    const avatarPath = req.file
+      ? `/uploads/avatars/${req.file.filename}`
+      : null;
     const hash_password = await bcrypt.hash(password, 10);
     const user = await User.create({
       login,
@@ -41,6 +44,7 @@ exports.register = async (req, res) => {
       phone,
       email,
       role,
+      photoURL: avatarPath,
     });
 
     res.status(201).json({
@@ -48,8 +52,12 @@ exports.register = async (req, res) => {
       user: {
         id: user.id,
         login: user.login,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
+        phone: user.phone,
         role: user.role,
+        avatar: user.photoURL,
       }
     });
   } catch (error) {
@@ -87,7 +95,7 @@ exports.login = async (req, res) => {
 }
 
 exports.refreshToken = async (req, res) => {
-  const { refreshToken } = req.body;
+  const { token: refreshToken } = req.body;
 
   if (!refreshToken) {
     return res.status(401).json({ message: 'Refresh токен отсутствует' });
