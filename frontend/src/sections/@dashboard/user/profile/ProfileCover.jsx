@@ -6,6 +6,7 @@ import Image from './../../../../components/Image';
 import ProfileAvatar from './../../../../components/ProfileAvatar';
 import { userFullName } from './../../../../shared/utils/auxiliaryFn';
 import cssStyles from './../../../../shared/utils/cssStyles';
+import MyAvatar from '~/components/MyAvatar';
 
 // ----------------------------------------------------------------------
 
@@ -51,7 +52,7 @@ export default function ProfileCover({ user }) {
     return (
         <RootStyle>
             <InfoStyle>
-                <ProfileAvatar
+                <MyAvatar 
                     sx={{
                         borderColor: 'common.white',
                         borderStyle: 'solid',
@@ -60,7 +61,6 @@ export default function ProfileCover({ user }) {
                         mx: 'auto',
                         width: { md: 128, xs: 80 },
                     }}
-                    userNameFields={firstName}
                 />
                 <Box
                     sx={{
