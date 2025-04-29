@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { API_URL } from './../../application/config';
 
-console.log(API_URL);
 export const httpClient = axios.create({
     baseURL: API_URL,
 });
@@ -43,17 +42,11 @@ httpClient.interceptors.response.use(
                 }
                 originalRequest._isRetry = true; // set flag that request we are retrying
                 isRefreshing = true;
-                const refreshTokenStorage =
-                    localStorage.getItem('refreshToken');
+                const refreshTokenStorage = localStorage.getItem('refreshToken');
                 return new Promise((resolve, reject) => {
-                    const params = new URLSearchParams();
-                    params.append('token', refreshTokenStorage);
                     axios
-                        .post(`${API_URL}/auth/refresh`, params, { // change update jwt url
-                            headers: {
-                                'content-type':
-                                    'application/x-www-form-urlencoded',
-                            },
+                        .post(`${API_URL}/auth/refresh`, {
+                            token: refreshTokenStorage,
                         })
                         .then(({ data }) => {
                             window.localStorage.setItem(

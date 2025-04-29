@@ -176,7 +176,7 @@ export function NavLi({ sx, children, disabled, ...other }) {
 export function NavUl({ children, sx, ...other }) {
   return (
     <Box
-      component="li"
+      component="ul"
       className={navSectionClasses.ul}
       sx={{
         display: 'flex',

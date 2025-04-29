@@ -1,3 +1,6 @@
+# prod api url
+public/env-config.js
+
 # Node modules
 node_modules/
 

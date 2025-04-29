@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Switch from '@mui/material/Switch';
 import Tooltip from '@mui/material/Tooltip';
 import ButtonBase from '@mui/material/ButtonBase';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import { varAlpha } from './../../../application/providers/theme-provider/styles';
 
@@ -10,6 +10,16 @@ import Iconify from './../../../components/Iconify';
 import SvgColor from './../../../components/SvgIconStyle';
 
 // ----------------------------------------------------------------------
+
+const RefIconify = forwardRef(function RefIconify(props, ref) {
+  return (
+    <Iconify
+      width={16}
+      icon="eva:info-outline"
+      sx={{ cursor: 'pointer', color: 'text.disabled' }}
+    />
+  );
+});
 
 export function BaseOption({ icon, label, tooltip, selected, ...other }) {
   return (
@@ -62,11 +72,7 @@ export function BaseOption({ icon, label, tooltip, selected, ...other }) {
               tooltip: { sx: { maxWidth: 240, mr: 0.5 } },
             }}
           >
-            <Iconify
-              width={16}
-              icon="eva:info-outline"
-              sx={{ cursor: 'pointer', color: 'text.disabled' }}
-            />
+            <RefIconify />
           </Tooltip>
         )}
       </Box>

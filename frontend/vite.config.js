@@ -14,17 +14,18 @@ export default ({ mode }) => {
   const outputDir = 'build';
 
   return defineConfig({
+    base: '/',
     build: {
       commonjsOptions: {
           transformMixedEsModules: true,
       },
       rollupOptions: {
-          input: {
-              app: resolve(__dirname, 'index.html'),
-          },
-          output: {
-              dir: resolve(__dirname, outputDir),
-          },
+        input: {
+            app: resolve(__dirname, 'index.html'),
+        },
+        output: {
+            dir: resolve(__dirname, outputDir),
+        },
       },
     },
     resolve: {

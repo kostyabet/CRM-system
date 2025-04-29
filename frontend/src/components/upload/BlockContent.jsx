@@ -1,4 +1,5 @@
 import { Box, Stack, Typography } from '@mui/material';
+import React from 'react';
 
 // assets
 import { UploadIllustration } from './../../shared/assets';
