@@ -39,7 +39,7 @@ const TabsWrapperStyle = styled('div')(({ theme }) => ({
 export default function UserProfile() {
     const { enqueueSnackbar } = useSnackbar();
     const { themeStretch } = useSettings();
-    const { data: user } = useUserInfo();
+    const { data: user, refetch } = useUserInfo();
     const param = useParams();
     const paramId = param?.id ? +param.id : param?.id;
 
@@ -55,7 +55,7 @@ export default function UserProfile() {
             value: 'Задачи',
         },
         {
-            component: <UserInfoCard user={user}/>,
+            component: <UserInfoCard user={user} refetch={refetch}/>,
             icon: (
                 <InfoIcon sx={{ height: 20, width: 20 }}/>
             ),

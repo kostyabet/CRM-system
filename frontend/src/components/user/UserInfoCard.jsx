@@ -9,7 +9,8 @@ import { UserInfo } from './UserInfo';
 import { EditUserInfo } from './EditUserInfo';
 
 export default function UserInfoCard({
-    user
+    user,
+    refetch
 }) {
     const [isEditing, setIsEditing] = useState(false);
 
@@ -24,7 +25,7 @@ export default function UserInfoCard({
                 </Typography>
                 {!isEditing
                     ? <UserInfo user={user} />
-                    : <EditUserInfo user={user} onCancel={() => setIsEditing(false)}/>
+                    : <EditUserInfo user={user} onCancel={() => setIsEditing(false)} refetch={refetch}/>
                 }
             </Stack>
             {!isEditing && <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={() => setIsEditing(!isEditing)}>

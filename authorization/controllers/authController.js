@@ -159,11 +159,16 @@ exports.update = async (req, res) => {
     user.lastName = lastName || user.lastName;
     user.phone = phone || user.phone;
     user.email = email || user.email;
-    user.photoURL = photoURL || user.photoURL;
+    user.role = role || user.role;
+    user.photoURL = user.photoURL || null;
     await user.save();
 
-    res.json(user);
+    res.status(200).json({
+      message: 'Данные успешно изменены!',
+      user: user
+    });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: 'Ошибка сервера' });
   }
 }
