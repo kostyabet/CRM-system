@@ -70,7 +70,7 @@ services:
     networks:
       - app-net
     ports:
-      - "3000:80"
+      - "3000:3000"
     environment:
       VITE_API_LOCAL: http:/gateway:80
 
