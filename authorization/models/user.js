@@ -5,7 +5,7 @@ const sequelize = new Sequelize(sequelizeString);
 const User = sequelize.define('t_users', {
   photoURL: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
     defaultValue: 'https://example.com/default-photo.png', // Default photo URL
   },
   login: {

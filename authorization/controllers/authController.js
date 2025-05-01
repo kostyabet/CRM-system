@@ -8,7 +8,7 @@ const refreshTokenSecret = process.env.REFRESHTOKENSECRET;
 
 const generateToken = (user) => {
   const accessToken = jwt.sign(
-    { id: user.id, login: user.login, role: user.role },
+    { id: user.id, login: user.login },
     accessTokenSecret,
     { expiresIn: '15m' }
   );
@@ -84,9 +84,12 @@ exports.login = async (req, res) => {
 
     const { accessToken, refreshToken } = generateToken(user);
 
+    const userData = user.get({ plain: true });
+    delete userData.password;
+
     res.status(200).json({
       message: 'Успешный вход',
-      user,
+      user: userData,
       accessToken,
       refreshToken,
     });
@@ -106,7 +109,10 @@ exports.refreshToken = async (req, res) => {
   try {
     const decoded = jwt.verify(refreshToken, refreshTokenSecret);
 
-    const { newAccessToken, newRefreshToken } = generateToken(decoded);
+    const { accessToken: newAccessToken, refreshToken: newRefreshToken } = generateToken({
+      id: decoded?.id,
+      login: decoded?.login
+    });
 
     res.status(200).json({
       accessToken: newAccessToken,
@@ -172,3 +178,19 @@ exports.update = async (req, res) => {
     res.status(500).json({ message: 'Ошибка сервера' });
   }
 }
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      attributes: { exclude: ['password'] },
+    });
+
+    res.status(200).json({
+      message: 'Список пользователей',
+      users,
+    });
+  } catch (error) {
+    console.error('Ошибка при получении пользователей:', error);
+    res.status(500).json({ message: 'Ошибка сервера' });
+  }
+};

@@ -10,4 +10,6 @@ router.get('/me', authenticateToken, authController.me);
 router.post('/refresh', authController.refreshToken);
 router.put('/me', authenticateToken, authController.update)
 
+router.get('/getAllUsers', authenticateToken, authController.getAllUsers);
+
 module.exports = router;
