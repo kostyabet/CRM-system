@@ -123,6 +123,11 @@ exports.refreshToken = async (req, res) => {
   }
 }
 
+
+
+
+
+
 exports.me = async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id, {
@@ -211,4 +216,31 @@ exports.getUserById = async (req, res) => {
     console.error('Ошибка при получении пользователя:', error);
     res.status(500).json({ message: 'Ошибка сервера' });
   }
-};
+}
+
+exports.isExists = async (req, res) => {
+  try {
+    const { users } = req.body;
+
+    if (!Array.isArray(users)) {
+      return res.status(400).json({ message: 'Поле users должно быть массивом.' });
+    }
+
+    const userIds = users.map(id => Number(id)).filter(id => !isNaN(id));
+
+    const foundUsers = await User.findAll({
+      where: {
+        id: userIds
+      },
+      attributes: ['id']
+    });
+
+    const exists = foundUsers.map(user => user.id);
+
+    const notFound = userIds.filter(id => !exists.includes(id));
+
+    res.status(200).json({ exists, notFound });
+  } catch (err) {
+    res.status(500).json({ message: 'Ошибка сервера' });
+  }
+}
