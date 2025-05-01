@@ -1,1 +1,2 @@
 export const USER_INFO_QUERY_KEY = 'USER_INFO';
+export const USERS_LIST_QUERY_KEY = 'USERS_LIST';
