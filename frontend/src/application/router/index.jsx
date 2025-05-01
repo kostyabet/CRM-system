@@ -49,7 +49,9 @@ export function Router() {
                 { element: <MainPage />, path: 'app' },
                 {
                     children: [
-                        { element: <UserProfile />, path: 'profile' }
+                        { element: <UserPage />, path: 'profile' },
+                        { element: <UserPage />, path: 'profile/:id'},
+                        { element: <UsersListPage />, path: 'list' },
                     ],
                     path: 'user'
                 }
@@ -89,8 +91,11 @@ const MainPage = Loadable(
 );
 
 // USERS
-const UserProfile = Loadable(
-    lazy(() => import('./../../pages/UsersPage/UsersPage'))
+const UserPage = Loadable(
+    lazy(() => import('./../../pages/UsersPage/UserPage'))
+);
+const UsersListPage = Loadable(
+    lazy(() => import('./../../pages/UsersPage/UsersListPage'))
 );
 
 // MAIN

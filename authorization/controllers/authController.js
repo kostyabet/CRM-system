@@ -142,9 +142,6 @@ exports.me = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const { login, firstName, lastName, phone, email, role } = req.body;
-    
-    console.log(req.body, 'req.body');
-    console.log(req.user, 'req.user');
 
     const user = await User.findByPk(req.user.id, {
       attributes: { exclude: ['password'] }
@@ -168,6 +165,8 @@ exports.update = async (req, res) => {
     user.role = role || user.role;
     user.photoURL = user.photoURL || null;
     await user.save();
+
+    console.log(user);
 
     res.status(200).json({
       message: 'Данные успешно изменены!',
