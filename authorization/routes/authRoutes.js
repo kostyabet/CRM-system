@@ -12,4 +12,7 @@ router.get('/me', authenticateToken, authController.me);
 router.put('/me', authenticateToken, authController.update);
 router.get('/isExists', authenticateToken, authController.isExists);
 
+router.get('/getAllUsers', authenticateToken, authController.getAllUsers);
+router.get('/getUser/:id', authenticateToken, authController.getUserById);
+
 module.exports = router;

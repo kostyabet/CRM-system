@@ -9,13 +9,19 @@ import {
 } from '@mui/material';
 import { FormProvider, RHFTextField } from '~/components/hook-form';
 import * as Yup from 'yup';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { fetchUpdateUser } from '~/entities/user/api';
+import { useSnackbar } from 'notistack';
 
 export const EditUserInfo = ({ 
     user,
     onCancel,
+    refetch
 }) => {
+    
+    const { enqueueSnackbar } = useSnackbar();
+    
     const UserSchema = Yup.object().shape({
         login: Yup.string().required('Login is required'),
         firstName: Yup.string().required('First name is required'),
@@ -49,8 +55,15 @@ export const EditUserInfo = ({
 
     const { handleSubmit, reset } = methods;
 
-    const onSubmit = (values) => {
-        console.log(values);
+    const onSubmit = async (values) => {
+        const data = await fetchUpdateUser(values);
+        if (data.message === 'Данные успешно изменены!') {
+            enqueueSnackbar(data.message, { variant: 'success' });
+            onCancel();
+            refetch();
+        } else {
+            enqueueSnackbar('Ошибка при обновлении данных', { variant: 'error' });
+        }
     }
 
     return(

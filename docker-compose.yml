@@ -11,6 +11,7 @@ services:
     depends_on:
       - frontend
       - auth-service
+      - tasks-service
 
   db:
     image: postgres:14
@@ -45,13 +46,31 @@ services:
       DB_PORT: 5432
       DB_NAME: postgres
 
+  tasks-service:
+    image: kostyabet228/crm-system:tasks_service-latest
+    container_name: tasks-service
+    networks:
+      - app-net
+    expose:
+      - "5001"
+    depends_on:
+      - db
+    environment:
+      ACCESSTOKENSECRET: "GreatSecretForTokenAccessWith#-~"
+      REFRESHTOKENSECRET: "SomeRandomNewStringForRefreshTokenWithout~#-"
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: postgres
+
   frontend:
     image: kostyabet228/crm-system:frontend-latest
     container_name: frontend
     networks:
       - app-net
     ports:
-      - "3000:80"
+      - "3000:3000"
     environment:
       VITE_API_LOCAL: http:/gateway:80
 

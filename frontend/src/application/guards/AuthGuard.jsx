@@ -6,12 +6,15 @@ import Login from './../../pages/AuthorizationPage/Login';
 import LoadingScreen from '../../components/common/loading/LoadingScreen';
 import useAuth from '../../shared/hooks/useAuth';
 
+import { setupInterceptors } from '../../shared/api';
+
 AuthGuard.propTypes = {
     children: PropTypes.node,
 };
 
 export default function AuthGuard({ children }) {
-    const { isAuthenticated, isInitialized } = useAuth();
+    const { isAuthenticated, isInitialized, logout } = useAuth();
+    setupInterceptors(logout);
 
     const { pathname } = useLocation();
 

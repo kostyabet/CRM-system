@@ -2,8 +2,8 @@ import React from 'react';
 import { Box, Card, Container, Tab, Tabs } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { PATH_DASHBOARD } from './../../application/router/paths';
 import { useUserInfo } from './../../entities/user';
 import { ProfileCover } from './../../sections/@dashboard/user/profile';
@@ -15,6 +15,8 @@ import { userFullName } from '~/shared/utils/auxiliaryFn';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import InfoIcon from '@mui/icons-material/Info';
 import UserInfoCard from '~/components/user/UserInfoCard';
+import { fetchUserInfoById } from '~/entities/user/api';
+import { useNavigate } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -36,14 +38,37 @@ const TabsWrapperStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function UserProfile() {
+export default function UserPage() {
     const { enqueueSnackbar } = useSnackbar();
+    const navigate = useNavigate();
     const { themeStretch } = useSettings();
-    const { data: user } = useUserInfo();
+    const { data: user, refetch } = useUserInfo();
     const param = useParams();
     const paramId = param?.id ? +param.id : param?.id;
-
-
+    const [userData, setUserData] = useState(user);
+    
+    const isParamsPassedButNotEqual =
+        paramId && paramId !== user?.id;
+    useEffect(() => {
+        async function fetchUser() {
+            try {
+                const data = await fetchUserInfoById(paramId);
+                setUserData(data);
+            } catch (err) {
+                enqueueSnackbar('Ошибка при загрузке данных пользователя', {
+                    variant: 'error',
+                });
+                navigate(PATH_DASHBOARD.user.list);
+            }
+        }
+        if (isParamsPassedButNotEqual) {
+            fetchUser();
+        }
+        else {
+            setUserData(user);
+        }
+    }, []);
+    
     const { currentTab, onChangeTab } = useTabs('Задачи', 'Информация');
 
     const PROFILE_TABS = [
@@ -55,7 +80,15 @@ export default function UserProfile() {
             value: 'Задачи',
         },
         {
-            component: <UserInfoCard user={user}/>,
+            component: (
+                <UserInfoCard 
+                    user={userData}
+                    refetch={refetch}
+                    isEditable={
+                        user.id === userData.id
+                    }
+                />
+            ),
             icon: (
                 <InfoIcon sx={{ height: 20, width: 20 }}/>
             ),
@@ -74,7 +107,7 @@ export default function UserProfile() {
                             href: PATH_DASHBOARD.user.profile,
                             name: 'Пользователь',
                         },
-                        { name: userFullName(user) },
+                        { name: userFullName(userData) },
                     ]}
                 />
                 <Card
@@ -84,7 +117,7 @@ export default function UserProfile() {
                         position: 'relative',
                     }}
                 >
-                    <ProfileCover user={user} />
+                    <ProfileCover user={userData} />
 
                     <TabsWrapperStyle>
                         <Tabs

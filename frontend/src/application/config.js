@@ -3,7 +3,9 @@ import { arSD, enUS, frFR, viVN, zhCN } from '@mui/material/locale';
 // API
 // ----------------------------------------------------------------------
 
-export const API_URL = window.env.API_URL || '';
+// export const API_URL = window.env.API_URL || '';
+export const API_URL = window.env.local.API_URL_AUTH || 'http://localhost:5000';
+// export const API_URL = window.env.local.API_URL_TASK || 'http://localhost:5001';
 
 // ROOT PATH AFTER LOGIN SUCCESSFUL
 export const PATH_AFTER_LOGIN = '/app';

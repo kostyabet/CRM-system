@@ -20,67 +20,69 @@ const processQueue = (error, token = null) => {
     failedQueue = [];
 };
 
-httpClient.interceptors.response.use(
-    (config) => config,
-    async (error) => {
-        const originalRequest = error.config;
-        if (
-            error.response?.status === 403 &&
-            error.config &&
-            !error.config._isRetry
-        ) {
-            try {
-                if (isRefreshing) {
+export const setupInterceptors = (logout) => {
+    httpClient.interceptors.response.use(
+        (config) => config,
+        async (error) => {
+            const originalRequest = error.config;
+
+            if (
+                error.response?.status === 403 &&
+                error.config &&
+                !error.config._isRetry
+            ) {
+                try {
+                    if (isRefreshing) {
+                        return new Promise((resolve, reject) => {
+                            failedQueue.push({ reject, resolve });
+                        })
+                            .then((token) => {
+                                originalRequest.headers.Authorization = `Bearer ${token}`;
+                                return axios(originalRequest);
+                            })
+                            .catch((err) => Promise.reject(err));
+                    }
+
+                    originalRequest._isRetry = true;
+                    isRefreshing = true;
+                    const refreshTokenStorage = localStorage.getItem('refreshToken');
+
                     return new Promise((resolve, reject) => {
-                        failedQueue.push({ reject, resolve });
-                    })
-                        .then((token) => {
-                            originalRequest.headers.Authorization = `Bearer ${token}`;
-                            return axios(originalRequest);
-                        })
-                        .catch((err) => Promise.reject(err));
+                        axios
+                            .post(`${API_URL}/auth/refresh`, {
+                                token: refreshTokenStorage,
+                            })
+                            .then(({ data }) => {
+                                window.localStorage.setItem('accessToken', data.accessToken);
+                                window.localStorage.setItem('refreshToken', data.refreshToken);
+
+                                httpClient.defaults.headers.common.Authorization = `Bearer ${data.accessToken}`;
+                                originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+                                processQueue(null, data.accessToken);
+                                resolve(httpClient(originalRequest));
+                            })
+                            .catch((err) => {
+                                processQueue(err, null);
+                                logout();
+                                reject(err);
+                            })
+                            .finally(() => {
+                                isRefreshing = false;
+                            });
+                    });
+                } catch (e) {
+                    console.error('Token expired', e);
+                    logout(); // fallback logout
                 }
-                originalRequest._isRetry = true; // set flag that request we are retrying
-                isRefreshing = true;
-                const refreshTokenStorage = localStorage.getItem('refreshToken');
-                return new Promise((resolve, reject) => {
-                    axios
-                        .post(`${API_URL}/auth/refresh`, {
-                            token: refreshTokenStorage,
-                        })
-                        .then(({ data }) => {
-                            window.localStorage.setItem(
-                                'accessToken',
-                                data.accessToken,
-                            );
-                            window.localStorage.setItem(
-                                'refreshToken',
-                                data.refreshToken,
-                            );
-
-                            httpClient.defaults.headers.common.Authorization = `Bearer ${data.accessToken}`;
-                            originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
-                            processQueue(null, data.accessToken);
-                            resolve(httpClient(originalRequest));
-                        })
-                        .catch((err) => {
-                            processQueue(err, null);
-                            reject(err);
-                        })
-                        .then(() => {
-                            isRefreshing = false;
-                        });
-                });
-            } catch (e) {
-                console.error('Token expired', e);
             }
-        }
-        throw error; // if res error not 403
-    }
-)
 
-httpClient.interceptors.request.use((config) => {
-    const token = localStorage.getItem('accessToken');
-    config.headers.Authorization = token ? `Bearer ${token}` : '';
-    return config;
-});
+            throw error;
+        }
+    );
+
+    httpClient.interceptors.request.use((config) => {
+        const token = localStorage.getItem('accessToken');
+        config.headers.Authorization = token ? `Bearer ${token}` : '';
+        return config;
+    });
+};

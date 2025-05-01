@@ -49,9 +49,19 @@ const navConfig = [
     {
         items: [
             {
+                children: [
+                    {
+                        path: PATH_DASHBOARD.user.list,
+                        title: 'Список пользователей',
+                    },
+                    {
+                        path: PATH_DASHBOARD.user.profile,
+                        title: 'Мой профиль',
+                    }
+                ],
                 icon: ICONS.user,
                 path: PATH_DASHBOARD.user.profile,
-                title: 'Профиль'
+                title: 'Пользватели',
             }
         ],
         subheader: 'Пользватели',

@@ -1,10 +1,10 @@
-import React from 'react';
 import { Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { m } from 'framer-motion';
+import React from 'react';
 
 // assets
-import { MaintenanceIllustration } from '~/shared/assets';
+import { SeverErrorIllustration } from '~/shared/assets';
 
 import Page from '../../Page';
 import { MotionContainer, varBounce } from '../../animate';
@@ -23,7 +23,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function ErrorRenderComponent({ error }) {
+export default function ErrorComponent({ error: { message } }) {
     return (
         <Page title="404 Page Not Found">
             <Container component={MotionContainer}>
@@ -32,7 +32,7 @@ export default function ErrorRenderComponent({ error }) {
                 >
                     <m.div variants={varBounce().in}>
                         <Typography paragraph variant="h3">
-                            Извините, в течение рендера произошла ошибка
+                            Извините, при получении данных произошла ошибка!
                         </Typography>
                     </m.div>
 
@@ -44,14 +44,11 @@ export default function ErrorRenderComponent({ error }) {
                     </m.div>
 
                     <m.div variants={varBounce().in}>
-                        <Typography>
-                            Сообщение: {error?.message}
-                            {error?.stack}
-                        </Typography>
+                        <Typography>Сообщение: {message}</Typography>
                     </m.div>
 
                     <m.div variants={varBounce().in}>
-                        <MaintenanceIllustration
+                        <SeverErrorIllustration
                             sx={{ height: 260, my: { sm: 10, xs: 5 } }}
                         />
                     </m.div>

@@ -8,7 +8,7 @@ const refreshTokenSecret = process.env.REFRESHTOKENSECRET;
 
 const generateToken = (user) => {
   const accessToken = jwt.sign(
-    { id: user.id, login: user.login, role: user.role },
+    { id: user.id, login: user.login },
     accessTokenSecret,
     { expiresIn: '15m' }
   );
@@ -84,9 +84,12 @@ exports.login = async (req, res) => {
 
     const { accessToken, refreshToken } = generateToken(user);
 
+    const userData = user.get({ plain: true });
+    delete userData.password;
+
     res.status(200).json({
       message: 'Успешный вход',
-      user,
+      user: userData,
       accessToken,
       refreshToken,
     });
@@ -106,7 +109,10 @@ exports.refreshToken = async (req, res) => {
   try {
     const decoded = jwt.verify(refreshToken, refreshTokenSecret);
 
-    const { newAccessToken, newRefreshToken } = generateToken(decoded);
+    const { accessToken: newAccessToken, refreshToken: newRefreshToken } = generateToken({
+      id: decoded?.id,
+      login: decoded?.login
+    });
 
     res.status(200).json({
       accessToken: newAccessToken,
@@ -141,9 +147,6 @@ exports.me = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const { login, firstName, lastName, phone, email, role } = req.body;
-    
-    console.log(req.body, 'req.body');
-    console.log(req.user, 'req.user');
 
     const user = await User.findByPk(req.user.id, {
       attributes: { exclude: ['password'] }
@@ -164,11 +167,53 @@ exports.update = async (req, res) => {
     user.lastName = lastName || user.lastName;
     user.phone = phone || user.phone;
     user.email = email || user.email;
-    user.photoURL = photoURL || user.photoURL;
+    user.role = role || user.role;
+    user.photoURL = user.photoURL || null;
     await user.save();
 
-    res.json(user);
+    console.log(user);
+
+    res.status(200).json({
+      message: 'Данные успешно изменены!',
+      user: user
+    });
   } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Ошибка сервера' });
+  }
+}
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      attributes: { exclude: ['password'] },
+    });
+
+    res.status(200).json({
+      message: 'Список пользователей',
+      users,
+    });
+  } catch (error) {
+    console.error('Ошибка при получении пользователей:', error);
+    res.status(500).json({ message: 'Ошибка сервера' });
+  }
+};
+
+exports.getUserById = async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const user = await User.findByPk(userId, {
+      attributes: { exclude: ['password'] }
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: 'Пользователь не найден' });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Ошибка при получении пользователя:', error);
     res.status(500).json({ message: 'Ошибка сервера' });
   }
 }
