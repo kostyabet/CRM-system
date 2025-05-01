@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Card, Container, Tab, Tabs } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { PATH_DASHBOARD } from './../../application/router/paths';
 import { useUserInfo } from './../../entities/user';
@@ -45,16 +45,15 @@ export default function UserPage() {
     const { data: user, refetch } = useUserInfo();
     const param = useParams();
     const paramId = param?.id ? +param.id : param?.id;
+    const [userData, setUserData] = useState(user);
     
     const isParamsPassedButNotEqual =
         paramId && paramId !== user?.id;
-    let userInfo = {};
     useEffect(() => {
         async function fetchUser() {
             try {
                 const data = await fetchUserInfoById(paramId);
-                console.log(data);
-                userInfo = {};
+                setUserData(data);
             } catch (err) {
                 enqueueSnackbar('Ошибка при загрузке данных пользователя', {
                     variant: 'error',
@@ -65,15 +64,11 @@ export default function UserPage() {
         if (isParamsPassedButNotEqual) {
             fetchUser();
         }
+        else {
+            setUserData(user);
+        }
     }, []);
-
-    let userData;
-    if (paramId) {
-        userData = userInfo;
-    } else {
-        userData = user;
-    }
-
+    
     const { currentTab, onChangeTab } = useTabs('Задачи', 'Информация');
 
     const PROFILE_TABS = [
@@ -85,7 +80,15 @@ export default function UserPage() {
             value: 'Задачи',
         },
         {
-            component: <UserInfoCard user={userData} refetch={refetch}/>,
+            component: (
+                <UserInfoCard 
+                    user={userData}
+                    refetch={refetch}
+                    isEditable={
+                        user.id === userData.id
+                    }
+                />
+            ),
             icon: (
                 <InfoIcon sx={{ height: 20, width: 20 }}/>
             ),

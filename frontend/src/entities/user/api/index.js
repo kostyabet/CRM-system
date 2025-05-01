@@ -16,6 +16,6 @@ export const fetchUsersList = async () => {
 }
 
 export const fetchUserInfoById = async (id) => {
-    const response = await httpClient.get('');
+    const response = await httpClient.get(`/auth/getUser/${id}`);
     return response.data;
 }

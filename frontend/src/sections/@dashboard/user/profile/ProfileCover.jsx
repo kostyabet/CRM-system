@@ -3,7 +3,6 @@ import { styled } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Image from './../../../../components/Image';
-import ProfileAvatar from './../../../../components/ProfileAvatar';
 import { userFullName } from './../../../../shared/utils/auxiliaryFn';
 import cssStyles from './../../../../shared/utils/cssStyles';
 import MyAvatar from '~/components/MyAvatar';
@@ -47,7 +46,7 @@ ProfileCover.propTypes = {
 };
 
 export default function ProfileCover({ user }) {
-    const { firstName, role } = user;
+    const { role } = user;
 
     return (
         <RootStyle>
