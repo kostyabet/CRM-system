@@ -6,8 +6,10 @@ const { authenticateToken } = require('../middleware/authMiddleware');
 
 router.post('/register', upload.single('photoURL'), authController.register);
 router.post('/login', authController.login);
-router.get('/me', authenticateToken, authController.me);
 router.post('/refresh', authController.refreshToken);
-router.put('/me', authenticateToken, authController.update)
+
+router.get('/me', authenticateToken, authController.me);
+router.put('/me', authenticateToken, authController.update);
+router.get('/isExists', authenticateToken, authController.isExists);
 
 module.exports = router;
