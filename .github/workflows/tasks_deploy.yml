@@ -1,4 +1,4 @@
-name: Build and Push Tasks Servise Docker Image
+name: Build and Push Tasks Service Docker Image
 
 on:
     push:
