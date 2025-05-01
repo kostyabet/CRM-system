@@ -42,18 +42,20 @@ exports.get = async (req, res) => {
 }
 
 exports.delete = async (req, res) => {
-    try {
-        const { id } = req.body;
+    const stateId = req.params.id;
+    if (!stateId)
+        return res.status(400).json({ message: 'Не указан id.' });
 
-        const status = await State.findOne({ where: { id } });
+    try {
+        const status = await State.findOne({ where: { stateId } });
 
         if (!status) {
-            return res.status(400).json({ message: `Статуса с таким id: ${id} не существует.` });
+            return res.status(400).json({ message: `Статуса с таким id: ${stateId} не существует.` });
         }
 
-        await State.destroy({ where: { id } });
+        await State.destroy({ where: { id: stateId } });
 
-        return res.status(200).json({ message: `Статус с id: ${id} успешно удалён.` });
+        res.status(200).json({ message: `Статус с id: ${stateId} успешно удалён.` });
     } catch(error) {
         console.error('Ошибка при удалении статуса:', error);
         res.status(500).json({ message: 'Ошибка сервера' });

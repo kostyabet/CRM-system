@@ -42,18 +42,20 @@ exports.get = async (req, res) => {
 }
 
 exports.delete = async (req, res) => {
-    try {
-        const { id } = req.body;
+    const priorityId = req.params.id;
+    if (!priorityId)
+        return res.status(400).json({ message: 'Не указан id.' });
 
-        const priority = await Priority.findOne({ where: { id } });
+    try {
+        const priority = await Priority.findOne({ where: { priorityId } });
 
         if (!priority) {
-            return res.status(400).json({ message: `Сложность с таким id: ${id} не существует.` });
+            return res.status(400).json({ message: `Сложность с таким id: ${priorityId} не существует.` });
         }
 
-        await Priority.destroy({ where: { id } });
+        await Priority.destroy({ where: { id: priorityId } });
 
-        return res.status(200).json({ message: `Сложнось с id: ${id} успешно удалён.` });
+        return res.status(200).json({ message: `Сложнось с id: ${priorityId} успешно удалена.` });
     } catch(error) {
         console.error('Ошибка при удалении сложности:', error);
         res.status(500).json({ message: 'Ошибка сервера' });
