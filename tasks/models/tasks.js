@@ -2,37 +2,37 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('./sequelize');
 
 const Task = sequelize.define('t_tasks', {
-  Name: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  Description: {
+  description: {
     type: DataTypes.STRING,
     allowNull: true
   },
-  Users: {
+  users: {
     type: DataTypes.ARRAY(DataTypes.INTEGER),
     allowNull: false,
     defaultValue: []
   },
-  Attachments: {
+  attachments: {
     type: DataTypes.ARRAY(DataTypes.STRING),
     allowNull: true,
     defaultValue: []
   },
-  StartAt: {
+  startAt: {
     type: DataTypes.DATE,
     allowNull: true
   },
-  EndAt: {
+  endAt: {
     type: DataTypes.DATE,
     allowNull: true
   },
-  Priority: {
+  priority: {
     type: DataTypes.STRING,
     allowNull: true
   },
-  State: {
+  state: {
     type: DataTypes.STRING,
     allowNull: true
   }
