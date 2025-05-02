@@ -63,6 +63,7 @@ services:
       DB_HOST: db
       DB_PORT: 5432
       DB_NAME: postgres
+      GATEWAY_URL: http:/gateway:80
 
   frontend:
     image: kostyabet228/crm-system:frontend-latest
