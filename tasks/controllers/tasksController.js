@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const { Task } = require('../models/tasks');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const axios = require('axios');
+const { Sequelize } = require('sequelize');
 
 // ------------------------------------------ TASKS ------------------------------------------ //
 
@@ -17,10 +19,13 @@ exports.create = async (req, res) => {
         if (start >= end)
             return res.status(400).json({ message: 'Дата начала должна быть раньше даты окончания.' });
 
+        // Users check
+        const { exists, notFound } = await validateUsers(users);
+
         const task = await Task.create({
             name,
             description,
-            users: !users || users.length === 0 ? null : users,
+            users: !exists || exists.length === 0 ? null : exists,
             attachments,
             startAt,
             endAt,
@@ -66,10 +71,36 @@ exports.getById = async (req, res) => {
 
         res.status(200).json(task);
     } catch(error) {
-        console.error('Ошибка получения спис:', error);
+        console.error('Ошибка получения списка задач:', error);
         res.status(500).json({ message: 'Ошибка сервера' });
     }
 }
+
+exports.userTasksById = async (req, res) => {
+    const userId = req.params.id;
+    if (!userId)
+        return res.status(400).json({ message: 'Не указан id пользователя.' });
+
+    const { exists, notFound } = await validateUsers([userId]);
+    if (!exists)
+        return res.status(400).json({ messaeg: `Пользователя с id: ${userId} не существует!` })
+
+    try {
+        const tasks = await Task.findAll({
+            where: {
+                users: {
+                    [Sequelize.Op.contains]: [userId] // Check if userId is in the users array
+                }
+            }
+        });
+
+        res.status(200).json(tasks);
+    } catch (error) {
+        console.error('Ошибка получения списка задач:', error);
+        res.status(500).json({ message: 'Ошибка сервера' });
+    }
+}
+
 
 exports.change = async (req, res) => {
     const taskId = req.params.id;
@@ -252,20 +283,21 @@ exports.addUsers = async (req, res) => {
             return res.status(404).json({ message: 'Задача не найдена.' });
         }
 
+        const { exists, notFound } = await validateUsers(users);
+
         const currentUsers = Array.isArray(task.users) ? task.users : [];
-        const newUsers = [...new Set([...currentUsers, ...users])];
+        const newUsers = [...new Set([...currentUsers, ...exists])];
         task.users = newUsers;
         await task.save();
 
         res.status(200).json({
-            message: 'Состав задачи изменен',
+            message: 'Состав задачи изменен!',
             task: {
                 id: task.id,
                 users: task.users
             }
         });
     } catch(error) {
-        console.error('Ошибка изменения состава задания:', error);
         res.status(500).json({ message: 'Ошибка сервера' });
     }
 }
@@ -287,8 +319,10 @@ exports.deleteUsers = async (req, res) => {
             return res.status(404).json({ message: 'Задача не найдена.' });
         }
 
+        const { exists, notFound } = await validateUsers(users);
+
         const currentUsers = Array.isArray(task.users) ? task.users : [];
-        const updatedUsers = currentUsers.filter(id => !users.includes(id));
+        const updatedUsers = currentUsers.filter(id => !exists.includes(id));
         task.users = updatedUsers;
         await task.save();
 
@@ -309,6 +343,6 @@ exports.deleteUsers = async (req, res) => {
 
 async function validateUsers(users) {
     const gatewayURL = process.env.GATEWAY_URL || "http://localhost";
-    const res = await axios.post(`${gatewayURL}/users/exists`, { ids: users });
+    const res = await axios.post(`${gatewayURL}/auth/isExists`, { users });
     return res.data;
 }
