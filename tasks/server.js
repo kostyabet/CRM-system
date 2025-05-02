@@ -12,7 +12,7 @@ const { initDefaultPriorities } = require('./models/priority');
 const app = express();
 app.use(bodyParser.json());
 app.use(cors({
-  origin: ['http://localhost:4000', 'http://localhost:3000'],
+  origin: ['http://localhost:5001', 'http://localhost:4000', 'http://localhost:3000'],
   credentials: true
 }));
 
