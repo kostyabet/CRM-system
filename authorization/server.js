@@ -9,7 +9,7 @@ const path = require('path');
 const app = express();
 app.use(bodyParser.json());
 app.use(cors({
-  origin: ['http://localhost:4000', 'http://localhost:3000'],
+  origin: ['http://localhost:5001', 'http://localhost:4000', 'http://localhost:3000'],
   credentials: true
 }));
 
@@ -31,6 +31,5 @@ app.listen(PORT, err => {
     console.error('Error starting server:', err);
     return;
   }
-  
   console.log(`Server running on port ${PORT}`);
 });
