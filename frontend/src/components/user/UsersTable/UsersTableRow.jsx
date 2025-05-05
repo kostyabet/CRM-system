@@ -1,4 +1,5 @@
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
     Avatar,
     IconButton,
@@ -21,7 +22,13 @@ UsersTableRow.propTypes = {
     user: PropTypes.object,
 };
 
-export default function UsersTableRow({ onOpenUser, rowData, user }) {
+export default function UsersTableRow({ 
+    isEditing,
+    onDeleteUser,
+    onOpenUser,
+    rowData,
+    user
+}) {
     const theme = useTheme();
 
     const { id, firstName, lastName, email, phone, role, photoUrl: avatar } = rowData;
@@ -78,6 +85,15 @@ export default function UsersTableRow({ onOpenUser, rowData, user }) {
                         <OpenInNewIcon />
                     </IconButton>
                 </Tooltip>
+                {isEditing && (
+                    <Tooltip title="Удалить">
+                        <IconButton
+                            onClick={() => onDeleteUser(id)}
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
+                )}
             </TableCell>
         </TableRow>
     );

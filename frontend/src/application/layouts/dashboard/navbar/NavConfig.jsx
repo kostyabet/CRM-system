@@ -49,6 +49,26 @@ const navConfig = [
     {
         items: [
             {
+                icon: ICONS.kanban,
+                path: PATH_DASHBOARD.projects.root,
+                title: 'Мои задачи',
+            },
+            {
+                icon: ICONS.calendar,
+                path: PATH_DASHBOARD.projects.all,
+                title: 'Список всех задач',
+            },
+            {
+                icon: ICONS.booking,
+                path: PATH_DASHBOARD.projects.new,
+                title: 'Новая задача',
+            }
+        ],
+        subheader: 'Задачи',
+    },
+    {
+        items: [
+            {
                 children: [
                     {
                         path: PATH_DASHBOARD.user.list,

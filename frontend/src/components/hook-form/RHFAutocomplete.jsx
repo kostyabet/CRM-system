@@ -14,6 +14,7 @@ RHFAutocomplete.propTypes = {
 
 export default function RHFAutocomplete({
     inputChange,
+    onChangeSelect,
     label,
     name,
     restForAutocomplete,
@@ -39,7 +40,7 @@ export default function RHFAutocomplete({
                     )}
                     {...other}
                     onChange={(event, value) => {
-                        field.onChange(value);
+                        onChangeSelect(value);
                     }}
                 />
             )}

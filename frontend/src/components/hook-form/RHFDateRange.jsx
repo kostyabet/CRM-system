@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { TextField, Stack } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
 
@@ -43,7 +43,7 @@ export function RHFDateRange({
                                 helperText={error?.message}
                             />
                         )}
-                        value={field.value}
+                        value={field.value ? new Date(field.value) : null}
                     />
                 )}
                 {...restForStart}
@@ -66,7 +66,7 @@ export function RHFDateRange({
                                 helperText={error?.message}
                             />
                         )}
-                        value={field.value}
+                        value={field.value ? new Date(field.value) : null}
                     />
                 )}
                 {...restForEnd}

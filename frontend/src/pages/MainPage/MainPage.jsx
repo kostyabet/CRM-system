@@ -5,8 +5,11 @@ import useSettings from './../../shared/hooks/useSettings';
 import {
     Container,
     Box,
-    Typography
+    Typography,
+    Grid
 } from '@mui/material';
+import { ProjectsSummary } from '~/widgets/projects-summary';
+import { ProjectsKanban } from '~/components/project/canban/ProjectsCanban'
 
 export default function MainPage() {
     const { data: user } = useUserInfo();
@@ -21,7 +24,10 @@ export default function MainPage() {
                         👋 Привет, {user?.firstName}
                     </Typography>
                 </Box>
-                This is text message!
+                <Grid container spacing={2} sx={{ mb: 3 }}>
+                    <ProjectsSummary />
+                </Grid>
+                <ProjectsKanban />
             </Container> 
         </Page>
     )

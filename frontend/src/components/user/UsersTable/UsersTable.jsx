@@ -10,17 +10,22 @@ import { UniversalTable } from '~/components/table';
 // ----------------------------------------------------------------------
 
 const tableHead = [
-    { align: 'left', id: 'id', label: 'ID', width: '6%' },
-    { align: 'left', id: 'name', label: 'Имя', width: '35%' },
-    { align: 'left', id: 'email', label: 'Email', width: '19%' },
-    { align: 'left', id: 'phone', label: 'Телефон', width: '19%' },
-    { align: 'left', id: 'role', label: 'Роль', width: '19%' },
-    { align: 'right', id: 'link', label: '', width: '2%' }
+    { align: 'left', id: 'id', label: 'ID', width: '5%' },
+    { align: 'left', id: 'name', label: 'Имя', width: '30%' },
+    { align: 'left', id: 'email', label: 'Email', width: '18%' },
+    { align: 'left', id: 'phone', label: 'Телефон', width: '18%' },
+    { align: 'left', id: 'role', label: 'Роль', width: '18%' },
+    { align: 'right', id: 'link', label: '', width: '14%' }
 ];
 
 // ----------------------------------------------------------------------
 
-export default function UsersTable({ users }) {
+export default function UsersTable({ 
+    users,
+    isEditing,
+    onDeleteUser,
+    customEmptyContent
+}) {
     const navigate = useNavigate();
 
     const { data: user } = useUserInfo();
@@ -35,12 +40,15 @@ export default function UsersTable({ users }) {
             onOpenUser={() => handleOpenUser(rowData.id)}
             rowData={rowData}
             user={user}
+            isEditing={isEditing}
+            onDeleteUser={onDeleteUser}
         />
     );
 
     return (
         <Card>
             <UniversalTable
+                isEditing={isEditing}
                 defaultTableSettings={{
                     defaultOrder: 'asc',
                     defaultOrderBy: 'name.fullName',
@@ -48,6 +56,7 @@ export default function UsersTable({ users }) {
                 renderTableRow={renderTableRow}
                 tableData={users}
                 tableHead={tableHead}
+                customEmptyContent={customEmptyContent}
             />
         </Card>
     );

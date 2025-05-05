@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
-const upload = require('./upload');
+// const upload = require('./upload');
 const { authenticateToken } = require('../middleware/authMiddleware');
 
-router.post('/register', upload.single('photoURL'), authController.register);
+// router.post('/register', upload.single('photoURL'), authController.register);
+router.post('/register', authController.register);
 router.post('/login', authController.login);
 router.post('/refresh', authController.refreshToken);
 

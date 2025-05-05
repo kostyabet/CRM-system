@@ -5,6 +5,7 @@ const { authenticateToken } = require('../middleware/authMiddleware');
 
 router.post('/', authenticateToken, tasksController.create);
 router.get('/', authenticateToken, tasksController.get);
+router.get('/summary', authenticateToken, tasksController.getSummary);
 router.get('/:id', authenticateToken, tasksController.getById);
 router.get('/user/:id', authenticateToken, tasksController.userTasksById)
 router.put('/:id', authenticateToken, tasksController.change);

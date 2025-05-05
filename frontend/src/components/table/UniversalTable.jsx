@@ -17,7 +17,8 @@ const UniversalTable = ({
     tableData = [],
     tableHead = [],
     tableSx,
-    isFetching
+    isFetching,
+    customEmptyContent = null
 }) => {
     const isNotFound = !tableData.length;
 
@@ -54,9 +55,10 @@ const UniversalTable = ({
                                 </>
                             )}
                             
-                            <TableNoData
+                            {!customEmptyContent && <TableNoData
                                 isNotFound={isNotFound && !isFetching}
-                            />
+                            />}
+                            {isNotFound && customEmptyContent}
                         </TableBody>
                     </Table>
                 </TableContainer>

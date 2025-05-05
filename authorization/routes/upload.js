@@ -1,23 +1,19 @@
 const multer = require('multer');
+const multerS3 = require('multer-s3');
+const s3 = require('./s3');
 const path = require('path');
-const fs = require('fs');
 
-const uploadDir = path.join(__dirname, 'uploads/avatars');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    const ext = path.extname(file.originalname);
-    cb(null, uniqueName + ext); // пример: 1714401412-823491002.png
-  },
+const upload = multer({
+  storage: multerS3({
+    s3,
+    bucket: process.env.AWS_BUCKET_NAME, // имя твоего бакета
+    acl: 'public-read', // или 'private' если не хочешь публичный доступ
+    key: function (req, file, cb) {
+      const fileName = Date.now().toString() + path.extname(file.originalname);
+      cb(null, `uploads/${fileName}`);
+    }
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 }, // лимит 5MB
 });
-
-const upload = multer({ storage });
 
 module.exports = upload;

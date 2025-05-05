@@ -13,6 +13,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors({
   origin: ['http://localhost:4000', 'http://localhost:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true
 }));
 

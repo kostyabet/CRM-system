@@ -24,6 +24,12 @@ export const PATH_DASHBOARD = {
     general: {
         app: path(ROOTS_DASHBOARD, '/app'),
     },
+    projects: {
+        root: path(ROOTS_DASHBOARD, '/projects'),
+        user: (id) => path(ROOTS_DASHBOARD, `/projects/${id}`),
+        all: path(ROOTS_DASHBOARD, '/projects/all'),
+        new: path(ROOTS_DASHBOARD, '/projects/new'),
+    },
     user: {
         list: path(ROOTS_DASHBOARD, '/user/list'),
         profile: path(ROOTS_DASHBOARD, '/user/profile'),

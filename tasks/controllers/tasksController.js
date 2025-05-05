@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const axios = require('axios');
 const { Sequelize } = require('sequelize');
+const { State } = require('../models/state');
+const { Priority } = require('../models/priority');
 
 // ------------------------------------------ TASKS ------------------------------------------ //
 
@@ -45,7 +47,18 @@ exports.create = async (req, res) => {
 
 exports.get = async (req, res) => {
     try {
-        const tasks = await Task.findAll();
+        const tasks = await Task.findAll({
+            include: [
+                {
+                    model: State,
+                    attributes: ['RU', 'EN'],
+                },
+                {
+                    model: Priority,
+                    attributes: ['RU', 'EN'],
+                },
+            ],
+        });
 
         res.status(200).json({
             message: 'Список задач',
@@ -63,7 +76,18 @@ exports.getById = async (req, res) => {
         return res.status(400).json({ message: 'Не указан id задачи.' });
 
     try {
-        const task = await Task.findByPk(taskId);
+        const task = await Task.findByPk(taskId, {
+            include: [
+                {
+                    model: State,
+                    attributes: ['RU', 'EN'],  // Загружаем только нужные атрибуты
+                },
+                {
+                    model: Priority,
+                    attributes: ['RU', 'EN'],  // Загружаем только нужные атрибуты
+                },
+            ],
+        });
 
         if (!task) {
             return res.status(404).json({ message: 'Задача не найдена.' });
@@ -91,7 +115,17 @@ exports.userTasksById = async (req, res) => {
                 users: {
                     [Sequelize.Op.contains]: [userId] // Check if userId is in the users array
                 }
-            }
+            },
+            include: [
+                {
+                    model: State,
+                    attributes: ['RU', 'EN'],
+                },
+                {
+                    model: Priority,
+                    attributes: ['RU', 'EN'],
+                },
+            ],
         });
 
         res.status(200).json(tasks);
@@ -108,24 +142,36 @@ exports.change = async (req, res) => {
         return res.status(400).json({ message: 'Не указан id задачи.' });
     
     try {
-        const { name, description } = req.body;
+        const { name, description, users, attachments, startAt, endAt, priority, state } = req.body;
 
         const task = await Task.findByPk(taskId);
         if (!task) {
             return res.status(404).json({ message: 'Задача не найдена.' });
         }
 
+        // Date check
+        const start = new Date(startAt);
+        const end = new Date(endAt);
+        if (isNaN(start) || isNaN(end))
+            return res.status(400).json({ message: 'Неверный формат даты.' });
+        if (start >= end)
+            return res.status(400).json({ message: 'Дата начала должна быть раньше даты окончания.' });
+
+        // Users check
+        const { exists, notFound } = await validateUsers(users);
+
         task.name = name;
         task.description = description;
+        task.startAt = startAt;
+        task.endAt = endAt;
+        task.priority = priority;
+        task.state = state;
+        task.users = exists;
         await task.save();
 
         res.status(200).json({
             message: 'Задача изменена',
-            task: {
-                id: taskId,
-                name,
-                description
-            }
+            task: task
         });
     } catch(error) {
         console.error('Ошибка изменения задания:', error);
@@ -153,6 +199,50 @@ exports.delete = async (req, res) => {
         res.status(500).json({ message: 'Ошибка сервера' });
     }
 }
+
+exports.getSummary = async (req, res) => {
+    try {
+      // Получаем все состояния, кроме "Не выбрано"
+      const allStates = await State.findAll({
+        where: {
+          EN: { [Sequelize.Op.ne]: 'None' } // исключаем "None" (или 'Не выбрано')
+        },
+        raw: true
+      });
+  
+      // Получаем реальные количества задач по состояниям
+      const counts = await Task.findAll({
+        attributes: [
+          [Sequelize.col('t_state.RU'), 'state'],
+          [Sequelize.fn('COUNT', Sequelize.col('t_tasks.id')), 'count']
+        ],
+        include: [
+          {
+            model: State,
+            attributes: [],
+            required: true
+          }
+        ],
+        group: ['t_state.RU'],
+        raw: true
+      });
+  
+      // Преобразуем counts в Map для удобства
+      const countsMap = new Map();
+      counts.forEach(row => countsMap.set(row.state, parseInt(row.count, 10)));
+  
+      // Собираем итоговый объект
+      const summary = {};
+      allStates.forEach(state => {
+        summary[state.RU] = countsMap.get(state.RU) || 0;
+      });
+  
+      res.json(summary);
+    } catch (error) {
+      console.error('Ошибка получения статистики:', error);
+      res.status(500).json({ message: 'Ошибка сервера' });
+    }
+};
 
 // ------------------------------------------ TASKS CHANGE ------------------------------------------ //
 

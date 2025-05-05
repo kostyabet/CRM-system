@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('./sequelize');
+const { State } = require('./state');
+const { Priority } = require('./priority');
 
 const Task = sequelize.define('t_tasks', {
   name: {
@@ -29,13 +31,16 @@ const Task = sequelize.define('t_tasks', {
     allowNull: true
   },
   priority: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true
   },
   state: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: true
   }
 });
+
+Task.belongsTo(State, { foreignKey: 'state' });
+Task.belongsTo(Priority, { foreignKey: 'priority' });
 
 module.exports = { Task };

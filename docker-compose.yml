@@ -7,7 +7,7 @@ services:
     networks:
       - app-net
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.prod.conf:/etc/nginx/nginx.conf
     depends_on:
       - frontend
       - auth-service

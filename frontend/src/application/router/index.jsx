@@ -35,7 +35,7 @@ export function Router() {
                     element: (
                         <Register />
                     ),
-                    path: 'register'    
+                    path: 'register'
                 }
             ],
             path: 'authorization',
@@ -47,6 +47,15 @@ export function Router() {
                     index: true,
                 },
                 { element: <MainPage />, path: 'app' },
+                {
+                    children: [
+                        { element: <ProjectPage />, path: ':id' },
+                        { element: <AllProjectsPage />, path: 'all' },
+                        { element: <NewProjectPage />, path: 'new' },
+                        { element: <ProjectsPage />, path: '' },
+                    ],
+                    path: 'projects'
+                },
                 {
                     children: [
                         { element: <UserPage />, path: 'profile' },
@@ -83,6 +92,20 @@ const Login = Loadable(
 );
 const Register = Loadable(
     lazy(() => import('./../../pages/AuthorizationPage/Register'))
+);
+
+// PROJECTS
+const NewProjectPage = Loadable(
+    lazy(() => import('./../../pages/ProjectsPage/NewProjectPage'))
+);
+const ProjectPage = Loadable(
+    lazy(() => import('./../../pages/ProjectsPage/ProjectPage'))
+);
+const ProjectsPage = Loadable(
+    lazy(() => import ('./../../pages/ProjectsPage/ProjectsPage'))
+);
+const AllProjectsPage = Loadable(
+    lazy(() => import('./../../pages/ProjectsPage/AllProjectsPage'))
 );
 
 // MAIN

@@ -17,6 +17,9 @@ import InfoIcon from '@mui/icons-material/Info';
 import UserInfoCard from '~/components/user/UserInfoCard';
 import { fetchUserInfoById } from '~/entities/user/api';
 import { useNavigate } from 'react-router-dom';
+import CircularProgressCustom from '~/components/common/loading/CircularProgress';
+import ProjectsTable from '~/components/project/ProjectsTable';
+import { useUserTasksById } from '~/entities/task';
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +45,7 @@ export default function UserPage() {
     const { enqueueSnackbar } = useSnackbar();
     const navigate = useNavigate();
     const { themeStretch } = useSettings();
-    const { data: user, refetch } = useUserInfo();
+    const { data: user, isLoading, refetch } = useUserInfo();
     const param = useParams();
     const paramId = param?.id ? +param.id : param?.id;
     const [userData, setUserData] = useState(user);
@@ -71,9 +74,14 @@ export default function UserPage() {
     
     const { currentTab, onChangeTab } = useTabs('Задачи', 'Информация');
 
+    const { data: tasks, isLoading: isLoadingTasks } = useUserTasksById(paramId ? paramId : user?.id);
+    
+    if (isLoadingTasks || isLoading)
+        return <CircularProgressCustom />;
+
     const PROFILE_TABS = [
         {
-            component: <p>Задачи</p>,//<GantCalendarProjects userId={userData.id} />,
+            component: <ProjectsTable tasks={tasks} />,
             icon: (
                 <ScheduleIcon sx={{ ml: 1, height: 20, width: 20 }}/>
             ),
