@@ -38,13 +38,16 @@ services:
     depends_on:
       - db
     environment:
-      ACCESSTOKENSECRET: "GreatSecretForTokenAccessWith#-~"
-      REFRESHTOKENSECRET: "SomeRandomNewStringForRefreshTokenWithout~#-"
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_NAME: postgres
+      ACCESSTOKENSECRET: ${ACCESSTOKENSECRET}
+      REFRESHTOKENSECRET: ${REFRESHTOKENSECRET}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
 
   tasks-service:
     image: kostyabet228/crm-system:tasks_service-latest
@@ -56,13 +59,13 @@ services:
     depends_on:
       - db
     environment:
-      ACCESSTOKENSECRET: "GreatSecretForTokenAccessWith#-~"
-      REFRESHTOKENSECRET: "SomeRandomNewStringForRefreshTokenWithout~#-"
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_NAME: postgres
+      ACCESSTOKENSECRET: ${ACCESSTOKENSECRET}
+      REFRESHTOKENSECRET: ${REFRESHTOKENSECRET}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
       GATEWAY_URL: http:/gateway:80
 
   frontend:
