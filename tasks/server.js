@@ -18,7 +18,7 @@ app.use(cors({
 }));
 
 // Sequelize
-sequelize.sync({ alter: true, force: true }) // { force: true } если хочешь пересоздавать
+sequelize.sync({ alter: true }) // { force: true } если хочешь пересоздавать
   .then(async () => {
     await initDefaultStates();
     await initDefaultPriorities();
