@@ -31,5 +31,6 @@ app.listen(PORT, err => {
     console.error('Error starting server:', err);
     return;
   }
+  
   console.log(`Server running on port ${PORT}`);
 });
