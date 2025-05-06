@@ -18,7 +18,7 @@ export default function MyAvatar({ ...other }) {
         <Avatar
             alt={userDisplayName}
             color={user?.photoURL ? 'default' : createAvatar(userDisplayName).color}
-            // src={`${API_URL}${userAvatar}`}
+            src={userAvatar}
             {...other}
         >
             {createAvatar(userDisplayName).name}

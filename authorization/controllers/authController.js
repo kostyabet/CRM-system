@@ -25,6 +25,7 @@ const generateToken = (user) => {
 exports.register = async (req, res) => {
   try {
     console.log(req.body, 'req.body');
+    console.log(req.file, 'req.file');
     const { login, password, firstName, lastName, phone, email, role } = req.body;
     
     const existing = await User.findOne({ where: { login } });
@@ -33,9 +34,8 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: `Пользователь с таким login: ${login} уже существует.` });
     }
     
-    console.log(req.file, 'req.file');
-    const avatarPath = req.file
-      ? `/uploads/avatars/${req.file.filename}`
+    const avatarPath = req?.file
+      ? req?.file?.path || null
       : null;
     const hash_password = await bcrypt.hash(password, 10);
     const user = await User.create({

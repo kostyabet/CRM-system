@@ -37,7 +37,7 @@ export default function RegisterForm() {
     });
 
     const defaultValues = {
-        photoURL: '',
+        photoURL: null,
         login: '',
         password: '',
         firstName: '',

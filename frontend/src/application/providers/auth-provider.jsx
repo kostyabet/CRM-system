@@ -81,10 +81,12 @@ function AuthProvider({ children }) {
     const register = async (data) => {
         const formData = new FormData();
 
+        // Добавляем файл
         if (data.photoURL && data.photoURL instanceof File) {
             formData.append('photoURL', data.photoURL);
         }
 
+        // Добавляем остальные поля
         formData.append('login', data.login);
         formData.append('password', data.password);
         formData.append('firstName', data.firstName);
@@ -92,7 +94,7 @@ function AuthProvider({ children }) {
         formData.append('phone', data.phone);
         formData.append('email', data.email);
         formData.append('role', data.role);
-        
+
         await httpClient.post('/auth/register', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',

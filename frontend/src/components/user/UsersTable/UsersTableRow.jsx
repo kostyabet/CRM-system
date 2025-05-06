@@ -31,7 +31,7 @@ export default function UsersTableRow({
 }) {
     const theme = useTheme();
 
-    const { id, firstName, lastName, email, phone, role, photoUrl: avatar } = rowData;
+    const { id, firstName, lastName, email, phone, role, photoURL: avatar } = rowData;
 
     return (
         <TableRow hover>
@@ -55,7 +55,6 @@ export default function UsersTableRow({
 
             <TableCell align="left">
                 <Label
-                    sx={{ textTransform: 'capitalize' }}
                     variant={
                         theme.palette.mode === 'light' ? 'ghost' : 'filled'
                     }
