@@ -11,7 +11,8 @@ const { Priority } = require('../models/priority');
 
 exports.create = async (req, res) => {
     try {
-        const { name, description, users, attachments, startAt, endAt, priority, state } = req.body;
+        const { name, description, users, startAt, endAt, priority, state } = req.body;
+        const attachments = req.files?.map(file => file.path) || null;
 
         // Date check
         const start = new Date(startAt);

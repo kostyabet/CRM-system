@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const tasksController = require('../controllers/tasksController');
+const upload = require('../middleware/upload');
 const { authenticateToken } = require('../middleware/authMiddleware');
 
-router.post('/', authenticateToken, tasksController.create);
+router.post('/', authenticateToken, upload.array('attachments'), tasksController.create);
 router.get('/', authenticateToken, tasksController.get);
 router.get('/summary', authenticateToken, tasksController.getSummary);
 router.get('/:id', authenticateToken, tasksController.getById);
