@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const tasksController = require('../controllers/tasksController');
+const upload = require('../middleware/upload');
 const { authenticateToken } = require('../middleware/authMiddleware');
 
 router.post('/', authenticateToken, tasksController.create);
