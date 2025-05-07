@@ -26,7 +26,11 @@ export const fetchAllTasks = async () => {
 }
 
 export const fetchCreateTask = async (data) => {
-    const response = await httpClient.post('/tasks', data);
+    const response = await httpClient.post('/tasks', data, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
     return response.data;
 }
 

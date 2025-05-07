@@ -2,7 +2,8 @@ import Scrollbar from "~/components/Scrollbar"
 import {
     Stack,
     Box,
-    Typography
+    Typography,
+    Tooltip
 } from "@mui/material"
 import Iconify from '~/components/Iconify';
 import React from "react";
@@ -22,7 +23,7 @@ export const EquipmentFilesInfo = ({
     )
 }
 
-export const FileComponent = ({ column, fileName }) => {
+export const FileComponent = ({ column, fileName, hideName = false }) => {
     const fileExt = fileName.substring(fileName.lastIndexOf('.') + 1, fileName.length);
     return (
         <Stack
@@ -34,12 +35,12 @@ export const FileComponent = ({ column, fileName }) => {
         >
             <Iconify icon={`bi:filetype-${fileExt}`} />
                 
-            <Typography
+            {!hideName && <Typography
                 variant="subtitle2"
                 sx={{ color: 'text.disabled', pr: 0.1 }}
             >
                 {fileName}
-            </Typography>
+            </Typography>}
         </Stack>
     )
 }

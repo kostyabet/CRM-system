@@ -92,16 +92,21 @@ export default function ProjectInfoCard({
             userIds.push(userInfo.id);
         }
 
-        const data = await fetchCreateTask({
-            name: values.name,
-            description: values.description,
-            startAt: new Date(values.startAt),
-            endAt: new Date(values.endAt),
-            state: values.state,
-            priority: values.priority,
-            users: userIds,
-            attachments: values.attachments,
+        const formData = new FormData();
+        formData.append('name', values.name);
+        formData.append('description', values.description);
+        formData.append('startAt', new Date(values.startAt).toISOString());
+        formData.append('endAt', new Date(values.endAt).toISOString());
+        formData.append('state', values.state);
+        formData.append('priority', values.priority);
+
+        userIds.forEach((id) => formData.append('users', id));
+
+        values.attachments.forEach((file) => {
+            formData.append('attachments', file);
         });
+
+        const data = await fetchCreateTask(formData);
 
         if (data.message === "Задача создана")
             enqueueSnackbar('Задача создана', {
@@ -131,7 +136,6 @@ export default function ProjectInfoCard({
             state: values.state,
             priority: values.priority,
             users: userIds,
-            attachments: null,
         });
 
         if (data.message === "Задача изменена") {

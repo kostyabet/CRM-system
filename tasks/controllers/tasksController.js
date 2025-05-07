@@ -11,7 +11,7 @@ const { Priority } = require('../models/priority');
 
 exports.create = async (req, res) => {
     try {
-        const { name, description, users, startAt, endAt, priority, state } = req.body;
+        const { name, description, startAt, endAt, priority, state } = req.body;
         const attachments = req.files?.map(file => file.path) || null;
 
         // Date check
@@ -23,6 +23,9 @@ exports.create = async (req, res) => {
             return res.status(400).json({ message: 'Дата начала должна быть раньше даты окончания.' });
 
         // Users check
+        const users = Array.isArray(req.body.users)
+            ? req.body.users
+            : [req.body.users];
         const { exists, notFound } = await validateUsers(users);
 
         const task = await Task.create({
@@ -143,7 +146,7 @@ exports.change = async (req, res) => {
         return res.status(400).json({ message: 'Не указан id задачи.' });
     
     try {
-        const { name, description, users, attachments, startAt, endAt, priority, state } = req.body;
+        const { name, description, users, startAt, endAt, priority, state } = req.body;
 
         const task = await Task.findByPk(taskId);
         if (!task) {

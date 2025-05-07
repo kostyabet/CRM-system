@@ -90,7 +90,7 @@ export default function AttachmentsBlock({
                                                 <Iconify icon={'eva:trash-2-outline'} width={50} />
                                             </IconButton>
                                         </Box>
-                                        <FileComponent column fileName={file.name} />
+                                        <FileComponent column fileName={file.name || file} hideName={true}/>
                                     </Box>
                                 ))
                             )}
@@ -134,17 +134,26 @@ export default function AttachmentsBlock({
                     </Box>
                 </Card>
             ) : (
-                attachments.map((file, index) => (
-                    <Box sx={{ backgroundColor: '#ffffff10', minWidth: 80, borderRadius: 1, p: 1, m: 1, ...imageHoverSX }}>
-                        <Box sx={{ display: 'flex', position: 'relative', marginBottom: 2, justifyContent: 'space-between', width: '100%' }}>
-                            <Typography color="text.secondary">{index + 1}</Typography>
-                            <IconButton sx={{ top: -5, right: -5, position: 'absolute' }} onClick={() => handleClickDelete(index)}>
-                                <Iconify icon={'eva:trash-2-outline'} />
-                            </IconButton>
+                <Box sx={{ display: 'flex', flexDirection: 'row', overflowX: 'scroll' }}>
+                    {attachments.length === 0 ? (
+                        <Box sx={{ paddingY: 1 }}>
+                            <Typography color="text.secondary">Нет загруженных файлов</Typography>
                         </Box>
-                        <FileComponent column fileName={file.name} />
-                    </Box>
-                ))
+                        ) : (
+                        attachments.map((file, index) => (
+                            <Box 
+                                key={file.size + index}
+                                sx={{ backgroundColor: '#ffffff10', minWidth: 40, borderRadius: 1, p: 1, m: 1, ...imageHoverSX }}
+                                onClick={() => window.open(file)}
+                            >
+                                <Box sx={{ display: 'flex', position: 'relative', marginBottom: 2, justifyContent: 'space-between', width: '100%' }}>
+                                    <Typography color="text.secondary">{index + 1}</Typography>
+                                </Box>
+                                <FileComponent column fileName={file} hideName/>
+                            </Box>
+                        ))
+                    )}
+                </Box>
             )}
         </>
     )
