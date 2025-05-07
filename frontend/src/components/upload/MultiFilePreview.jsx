@@ -10,6 +10,7 @@ import Iconify from '../Iconify';
 //
 import Image from '../Image';
 import { varFade } from '../animate';
+import React from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -95,7 +96,6 @@ export default function MultiFilePreview({
                         <ListItem
                             component={m.div}
                             key={key}
-                            {...varFade().inRight}
                             sx={{
                                 border: (theme) =>
                                     `solid 1px ${theme.palette.divider}`,

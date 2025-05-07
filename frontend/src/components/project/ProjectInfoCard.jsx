@@ -100,9 +100,8 @@ export default function ProjectInfoCard({
             state: values.state,
             priority: values.priority,
             users: userIds,
-            attachments: null,
+            attachments: values.attachments,
         });
-        console.log(data);
 
         if (data.message === "Задача создана")
             enqueueSnackbar('Задача создана', {

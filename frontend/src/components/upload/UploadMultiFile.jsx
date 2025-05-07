@@ -7,6 +7,7 @@ import { useDropzone } from 'react-dropzone';
 import BlockContent from './BlockContent';
 import MultiFilePreview from './MultiFilePreview';
 import RejectionFiles from './RejectionFiles';
+import React from 'react';
 
 // ----------------------------------------------------------------------
 
