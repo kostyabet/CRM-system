@@ -5,7 +5,7 @@ const multer = require('multer');
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'avatars',
+    folder: 'attachments',
     allowed_formats: ['jpg', 'png', 'jpeg'],
   },
 });

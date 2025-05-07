@@ -16,7 +16,7 @@ export const EquipmentFilesInfo = ({
                 direction="column"
                 alignItems="left"
             >
-                {files.map(file => <FileComponent fileUrl={file.name} />)}
+                {files.map(file => <FileComponent fileName={file.name} />)}
             </Box>
         </Scrollbar>
     )
