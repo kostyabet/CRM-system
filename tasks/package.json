@@ -13,6 +13,7 @@
     "multer-storage-cloudinary": "^4.0.0",
     "path": "^0.12.7",
     "pg": "^8.15.6",
-    "sequelize": "^6.37.7"
+    "sequelize": "^6.37.7",
+    "uuid": "^11.1.0"
   }
 }

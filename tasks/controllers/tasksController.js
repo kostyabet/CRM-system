@@ -6,6 +6,9 @@ const axios = require('axios');
 const { Sequelize } = require('sequelize');
 const { State } = require('../models/state');
 const { Priority } = require('../models/priority');
+const { v4: uuidv4 } = require('uuid');
+const { createResponseWaiter } = require('./../kafka/memory-store');
+const { checkUsers } = require('./../kafka/producer');
 
 // ------------------------------------------ TASKS ------------------------------------------ //
 
@@ -26,7 +29,15 @@ exports.create = async (req, res) => {
         const users = Array.isArray(req.body.users)
             ? req.body.users
             : [req.body.users];
-        const { exists, notFound } = await validateUsers(users);
+
+        const correlationId = uuidv4();
+        const responsePromise = createResponseWaiter(correlationId);
+        await checkUsers(users, correlationId);
+
+        const response = await responsePromise;
+        const { exists } = response;
+
+        console.log(exists, 'exists');
 
         const task = await Task.create({
             name,
@@ -109,7 +120,14 @@ exports.userTasksById = async (req, res) => {
     if (!userId)
         return res.status(400).json({ message: 'Не указан id пользователя.' });
 
-    const { exists, notFound } = await validateUsers([userId]);
+    const correlationId = uuidv4();
+    const responsePromise = createResponseWaiter(correlationId);
+    await checkUsers([userId], correlationId);
+
+    const response = await responsePromise;
+    const { exists } = response;
+    console.log(exists, 'exists');
+
     if (!exists)
         return res.status(400).json({ messaeg: `Пользователя с id: ${userId} не существует!` })
 
@@ -162,7 +180,13 @@ exports.change = async (req, res) => {
             return res.status(400).json({ message: 'Дата начала должна быть раньше даты окончания.' });
 
         // Users check
-        const { exists, notFound } = await validateUsers(users);
+        const correlationId = uuidv4();
+        const responsePromise = createResponseWaiter(correlationId);
+        await checkUsers(users, correlationId);
+
+        const response = await responsePromise;
+        const { exists } = response;
+        console.log(exists, 'exists');
 
         task.name = name;
         task.description = description;
@@ -377,7 +401,13 @@ exports.addUsers = async (req, res) => {
             return res.status(404).json({ message: 'Задача не найдена.' });
         }
 
-        const { exists, notFound } = await validateUsers(users);
+        const correlationId = uuidv4();
+        const responsePromise = createResponseWaiter(correlationId);
+        await checkUsers(users, correlationId);
+
+        const response = await responsePromise;
+        const { exists } = response;
+        console.log(exists, 'exists');
 
         const currentUsers = Array.isArray(task.users) ? task.users : [];
         const newUsers = [...new Set([...currentUsers, ...exists])];
@@ -413,7 +443,13 @@ exports.deleteUsers = async (req, res) => {
             return res.status(404).json({ message: 'Задача не найдена.' });
         }
 
-        const { exists, notFound } = await validateUsers(users);
+        const correlationId = uuidv4();
+        const responsePromise = createResponseWaiter(correlationId);
+        await checkUsers(users, correlationId);
+
+        const response = await responsePromise;
+        const { exists } = response;
+        console.log(exists, 'exists');
 
         const currentUsers = Array.isArray(task.users) ? task.users : [];
         const updatedUsers = currentUsers.filter(id => !exists.includes(id));
@@ -431,12 +467,4 @@ exports.deleteUsers = async (req, res) => {
         console.error('Ошибка изменения состава задания:', error);
         res.status(500).json({ message: 'Ошибка сервера' });
     }
-}
-
-// -------------------------- Additional functions -------------------------- //
-
-async function validateUsers(users) {
-    const gatewayURL = process.env.GATEWAY_URL || "http://localhost";
-    const res = await axios.post(`${gatewayURL}/auth/isExists`, { users });
-    return res.data;
 }
