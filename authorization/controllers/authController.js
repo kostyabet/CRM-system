@@ -226,7 +226,7 @@ exports.isExists = async (req, res) => {
       return res.status(400).json({ message: 'Поле users должно быть массивом.' });
     }
 
-    const exists = checkUsersExists(users);
+    const { exists } = await checkUsersExists(users);
 
     res.status(200).json({ exists });
   } catch (err) {
