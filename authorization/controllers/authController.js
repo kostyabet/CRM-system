@@ -226,21 +226,31 @@ exports.isExists = async (req, res) => {
       return res.status(400).json({ message: 'Поле users должно быть массивом.' });
     }
 
-    const userIds = users.map(id => Number(id)).filter(id => !isNaN(id));
+    const { exists } = await checkUsersExists(users);
 
-    const foundUsers = await User.findAll({
-      where: {
-        id: userIds
-      },
-      attributes: ['id']
-    });
-
-    const exists = foundUsers.map(user => user.id);
-
-    const notFound = userIds.filter(id => !exists.includes(id));
-
-    res.status(200).json({ exists, notFound });
+    res.status(200).json({ exists });
   } catch (err) {
     res.status(500).json({ message: 'Ошибка сервера' });
   }
+}
+
+
+
+
+
+
+
+exports.checkUsersExists = async (users) => {
+  const userIds = users.map(id => Number(id)).filter(id => !isNaN(id));
+
+  const foundUsers = await User.findAll({
+    where: {
+      id: userIds
+    },
+    attributes: ['id']
+  });
+
+  const exists = foundUsers.map(user => user.id);
+
+  return { exists };
 }
