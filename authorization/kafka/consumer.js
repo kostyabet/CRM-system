@@ -18,7 +18,7 @@ async function run() {
       const exists = await checkUsersExists(users);
 
       await producer.send({
-        topic: 'check-user-response',
+        topic: 'check-users-response',
         messages: [
           {
             key: correlationId,
