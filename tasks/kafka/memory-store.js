@@ -15,10 +15,11 @@ function createResponseWaiter(correlationId) {
 }
 
 function handleKafkaResponse(response) {
-  const { correlationId } = response;
+  const parsedResponse = JSON.parse(response);
+  const { correlationId } = parsedResponse;
   const resolver = pendingResponses.get(correlationId);
   if (resolver) {
-    resolver(response);
+    resolver(parsedResponse);
     pendingResponses.delete(correlationId);
   }
 }
