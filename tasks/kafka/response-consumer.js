@@ -1,7 +1,7 @@
 const { Kafka } = require('kafkajs');
 const { handleKafkaResponse } = require('./memory-store');
 
-const kafka = new Kafka({ brokers: ['kafka:9092'] });
+const kafka = new Kafka({ brokers: [process.env.KAFKA_BROKER || 'localhost:9092'] });
 const consumer = kafka.consumer({ groupId: 'tasks-response-handler' });
 
 async function listenForResponses() {
