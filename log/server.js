@@ -31,6 +31,5 @@ app.listen(PORT, err => {
     log('log_service', 'ERR', `Error starting server ${err}`);
     return;
   }
-  
   log('log_service', 'INFO', `Server running on port ${PORT}`);
 });
