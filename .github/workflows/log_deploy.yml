@@ -1,4 +1,4 @@
-name: Build and Push Log Servise Docker Image
+name: Build and Push Log Service Docker Image
 
 on:
   push:

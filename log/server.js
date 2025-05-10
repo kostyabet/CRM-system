@@ -27,7 +27,7 @@ app.post('/log', async (req, res) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5002;
 app.listen(PORT, err => {
   if (err) {
     log('log_service', 'ERR', `Error starting server ${err}`);
