@@ -1,13 +1,15 @@
 import { Container, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { m } from 'framer-motion';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 // assets
 import { SeverErrorIllustration } from '~/shared/assets';
 
 import Page from '../../Page';
 import { MotionContainer, varBounce } from '../../animate';
+
+import { fetchNewLog } from '~/entities/log/api';
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +26,28 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function ErrorComponent({ error: { message } }) {
+    const hasLogged = useRef(false);
+    
+    useEffect(() => {
+        async function fetchLog() {
+            if (hasLogged.current) return;
+            hasLogged.current = true;
+
+            // await fetchNewLog({
+            //     level: 'ERROR',
+            //     message: error?.message,
+            //     service: 'frontend',
+            //     extra: {
+            //         error,
+            //         errorInfo: error,
+            //         stack: error?.stack,
+            //     },
+            // });
+        }
+
+        if (error) fetchLog();
+    }, [error]);
+
     return (
         <Page title="404 Page Not Found">
             <Container component={MotionContainer}>

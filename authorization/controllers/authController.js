@@ -147,7 +147,7 @@ exports.refreshToken = async (req, res) => {
     });
   } catch (error) {
     console.error('Ошибка обновления токена:', error);
-    errlog('Неверный или просроченный refresh токен');
+    errlog(`Ошибка обновления токена. ${error}`);
     return res.status(403).json({ message: 'Неверный или просроченный refresh токен' });
   }
 }

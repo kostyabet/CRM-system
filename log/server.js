@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { log } = require('./kafka/logger');
+const logRoutes = require('./routes/logRoutes');
 
 // Initialize the express app and middleware
 const app = express();
@@ -20,11 +21,8 @@ app.use(cors({
   credentials: true
 }));
 
-app.post('/log', async (req, res) => {
-    const { level = 'INFO', message, service = 'frontend', extra } = req.body;
-    log(service, level, message, extra);
-    res.status(200).send('Logged');
-});
+// Import and use the auth routes
+app.use('/log', logRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5002;

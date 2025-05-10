@@ -27,4 +27,20 @@ async function log(service, level, message, extra = {}) {
   });
 }
 
-module.exports = { log };
+function info(msg, extra) {
+  return log('INFO', msg, extra);
+}
+
+function error(msg, extra) {
+  return log('ERROR', msg, extra);
+}
+
+function warn(msg, extra) {
+  return log('WARN', msg, extra);
+}
+
+function debug(msg, extra) {
+  return log('DEBUG', msg, extra);
+}
+
+module.exports = { log, info, error, warn, debug };

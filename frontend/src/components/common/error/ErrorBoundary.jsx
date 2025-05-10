@@ -42,13 +42,13 @@ export default class ErrorBoundary extends Component {
     }
 
     render() {
-        if (this.state.hasError) {
+        if (this.state.hasError && this.state.error) {
             return (
                 <ErrorRenderComponent
                     error={this.state.error}
                     errorInfo={this.state.errorInfo}
                 />
-            );
+            )
         }
 
         return this.props.children;
