@@ -7,6 +7,8 @@ const priorityRoutes = require('./routes/priorityRoutes');
 const stateRoutes = require('./routes/stateRoutes');
 const { initDefaultStates } = require('./models/state');
 const { initDefaultPriorities } = require('./models/priority');
+const { listenForResponses } = require('./kafka/response-consumer');
+const { log } = require('./kafka/logger');
 
 // Initialize the express app and middleware
 const app = express();
@@ -40,6 +42,11 @@ app.use('/tasks', tasksRoutes);
 app.use('/priority', priorityRoutes);
 app.use('/state', stateRoutes);
 
+// kafka setup
+(async () => {
+  await listenForResponses();
+})();
+
 // Start the server
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, err => {
@@ -47,6 +54,5 @@ app.listen(PORT, err => {
     console.error('Error starting server:', err);
     return;
   }
-  
-  console.log(`Server running on port ${PORT}`);
+  log('INFO', `Server running on port ${PORT}`);
 });

@@ -5,6 +5,7 @@ const { sequelize } = require('./models/user');
 const authRoutes = require('./routes/authRoutes');
 const path = require('path');
 const { log } = require('./kafka/logger');
+require('./kafka/consumer');
 
 // Initialize the express app and middleware
 const app = express();

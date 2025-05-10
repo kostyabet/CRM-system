@@ -9,13 +9,13 @@ const producer = kafka.producer();
 async function run() {
   await consumer.connect();
   await producer.connect();
-  await consumer.subscribe({ topic: 'check-user' });
+  await consumer.subscribe({ topic: 'check-users' });
 
   await consumer.run({
     eachMessage: async ({ message }) => {
       const { users, correlationId } = JSON.parse(message.value.toString());
 
-      const exists = await checkUsersExists(users);
+      const { exists } = await checkUsersExists(users);
 
       await producer.send({
         topic: 'check-users-response',
