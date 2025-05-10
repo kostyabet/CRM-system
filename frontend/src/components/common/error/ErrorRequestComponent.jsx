@@ -25,7 +25,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function ErrorComponent({ error: { message } }) {
+export default function ErrorComponent({ error }) {
     const hasLogged = useRef(false);
     
     useEffect(() => {
@@ -33,16 +33,16 @@ export default function ErrorComponent({ error: { message } }) {
             if (hasLogged.current) return;
             hasLogged.current = true;
 
-            // await fetchNewLog({
-            //     level: 'ERROR',
-            //     message: error?.message,
-            //     service: 'frontend',
-            //     extra: {
-            //         error,
-            //         errorInfo: error,
-            //         stack: error?.stack,
-            //     },
-            // });
+            await fetchNewLog({
+                level: 'ERROR',
+                message: error?.message,
+                service: 'frontend',
+                extra: {
+                    error,
+                    errorInfo: error,
+                    stack: error?.stack,
+                },
+            });
         }
 
         if (error) fetchLog();
@@ -68,7 +68,7 @@ export default function ErrorComponent({ error: { message } }) {
                     </m.div>
 
                     <m.div variants={varBounce().in}>
-                        <Typography>Сообщение: {message}</Typography>
+                        <Typography>Сообщение: {error.message}</Typography>
                     </m.div>
 
                     <m.div variants={varBounce().in}>
