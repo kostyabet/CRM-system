@@ -8,6 +8,7 @@ const stateRoutes = require('./routes/stateRoutes');
 const { initDefaultStates } = require('./models/state');
 const { initDefaultPriorities } = require('./models/priority');
 const { listenForResponses } = require('./kafka/response-consumer');
+const { log } = require('./kafka/logger');
 
 // Initialize the express app and middleware
 const app = express();
@@ -53,5 +54,5 @@ app.listen(PORT, err => {
     console.error('Error starting server:', err);
     return;
   }
-  console.log(`Server running on port ${PORT}`);
+  log('INFO', `Server running on port ${PORT}`);
 });
