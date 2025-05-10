@@ -54,5 +54,6 @@ app.listen(PORT, err => {
     error(`Error starting server: ${err}`);
     return;
   }
+  
   info(`Server running on port ${PORT}`);
 });
