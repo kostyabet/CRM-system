@@ -7,6 +7,7 @@ const priorityRoutes = require('./routes/priorityRoutes');
 const stateRoutes = require('./routes/stateRoutes');
 const { initDefaultStates } = require('./models/state');
 const { initDefaultPriorities } = require('./models/priority');
+const { listenForResponses } = require('./kafka/response-consumer');
 
 // Initialize the express app and middleware
 const app = express();
@@ -39,6 +40,11 @@ sequelize.sync({ alter: true }) // { force: true } если хочешь пер�
 app.use('/tasks', tasksRoutes);
 app.use('/priority', priorityRoutes);
 app.use('/state', stateRoutes);
+
+// kafka setup
+(async () => {
+  await listenForResponses();
+})();
 
 // Start the server
 const PORT = process.env.PORT || 5001;

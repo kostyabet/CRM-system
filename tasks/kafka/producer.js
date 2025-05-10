@@ -6,7 +6,7 @@ const producer = kafka.producer();
 async function checkUsers(users, correlationId) {
   await producer.connect();
   await producer.send({
-    topic: 'check-user',
+    topic: 'check-users',
     messages: [
       {
         key: correlationId,

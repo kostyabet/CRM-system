@@ -449,8 +449,7 @@ exports.deleteUsers = async (req, res) => {
 
         const response = await responsePromise;
         const { exists } = response;
-        console.log(exists, 'exists');
-
+        
         const currentUsers = Array.isArray(task.users) ? task.users : [];
         const updatedUsers = currentUsers.filter(id => !exists.includes(id));
         task.users = updatedUsers;
