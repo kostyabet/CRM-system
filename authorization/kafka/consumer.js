@@ -1,5 +1,7 @@
 const { checkUsersExists } = require('./../controllers/authController');
 
+const { warn } = require('./logger');
+
 const { Kafka } = require('kafkajs');
 
 const kafka = new Kafka({ brokers: [process.env.KAFKA_BROKER || 'localhost:9092'] });
@@ -16,6 +18,10 @@ async function run() {
       const { users, correlationId } = JSON.parse(message.value.toString());
 
       const { exists } = await checkUsersExists(users);
+
+      if (!exists) {
+        warn(`User(s) ${users} do not exist`);
+      }
 
       await producer.send({
         topic: 'check-users-response',

@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const { sequelize } = require('./models/user');
 const authRoutes = require('./routes/authRoutes');
 const path = require('path');
-const { log } = require('./kafka/logger');
+const { info, error } = require('./kafka/logger');
 require('./kafka/consumer');
 
 // Initialize the express app and middleware
@@ -39,8 +39,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'routes', 'uploads')));
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, err => {
   if (err) {
-    console.error('Error starting server:', err);
+    error('Error starting server:', err);
     return;
   }
-  log('INFO', `Server running on port ${PORT}`);
+  info(`Server running on port ${PORT}`);
 });

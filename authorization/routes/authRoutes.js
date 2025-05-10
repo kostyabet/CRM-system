@@ -4,7 +4,6 @@ const authController = require('../controllers/authController');
 const upload = require('../middleware/upload');
 const { authenticateToken } = require('../middleware/authMiddleware');
 
-// router.post('/register', upload.single('photoURL'), authController.register);
 router.post('/register', upload.single('photoURL'), authController.register);
 router.post('/login', authController.login);
 router.post('/refresh', authController.refreshToken);

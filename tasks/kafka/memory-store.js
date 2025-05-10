@@ -1,4 +1,5 @@
 const pendingResponses = new Map();
+const { error, info } = require('./logger');
 
 function createResponseWaiter(correlationId) {
   return new Promise((resolve, reject) => {
@@ -9,6 +10,7 @@ function createResponseWaiter(correlationId) {
 
     pendingResponses.set(correlationId, (data) => {
       clearTimeout(timeout);
+      info(`User validation resolved for correlationId: ${correlationId}`, { correlationId });
       resolve(data);
     });
   });
@@ -20,6 +22,7 @@ function handleKafkaResponse(response) {
   const resolver = pendingResponses.get(correlationId);
   if (resolver) {
     resolver(parsedResponse);
+    info(`Resolved user validation for correlationId: ${correlationId}`, { correlationId });
     pendingResponses.delete(correlationId);
   }
 }
