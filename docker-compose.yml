@@ -1,34 +1,48 @@
 services:
   logstash:
+    depends_on:
+      - elasticsearch
+      - kafka
+    container_name: logstash
     image: docker.elastic.co/logstash/logstash:8.5.3
+    networks:
+      - app-net
     environment:
       - "LOGSTASH_HTTP_HOST=0.0.0.0"
     ports:
       - "5044:5044"
     volumes:
       - ./logstash/pipeline/logstash-prod.conf:/usr/share/logstash/pipeline/logstash.conf
-    networks:
-      - app-net
 
   elasticsearch:
+    container_name: elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:8.5.3
     environment:
       - discovery.type=single-node
-    ports:
-      - "9200:9200"
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - ELASTIC_PASSWORD=admin
     networks:
       - app-net
+    ports:
+      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
 
   kibana:
+    container_name: kibana
     image: docker.elastic.co/kibana/kibana:8.5.3
+    networks:
+      - app-net
     environment:
       - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     ports:
       - "5601:5601"
-    networks:
-      - app-net
+    volumes:
+      - kibana_config:/usr/share/kibana/config
 
   zookeeper:
+    container_name: zookeeper
     image: confluentinc/cp-zookeeper:latest
     networks:
       - app-net
@@ -36,6 +50,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
 
   kafka:
+    container_name: kafka
     depends_on:
       - zookeeper
     image: confluentinc/cp-kafka:latest
@@ -44,10 +59,15 @@ services:
     networks:
       - app-net
     environment:
-      KAFKA_BROKER_ID: 2
+      KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "localhost:9092", "--list"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   gateway:
     image: nginx:latest
@@ -62,6 +82,7 @@ services:
       - frontend
       - auth-service
       - tasks-service
+      - log-service
 
   db:
     image: postgres:14
@@ -78,6 +99,24 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
+  log-service:
+    image: kostyabet228/crm-system:log_service-latest
+    container_name: log-service
+    networks:
+      - app-net
+    expose:
+      - "5002"
+    depends_on:
+      db:
+        condition: service_started
+      kafka:
+        condition: service_healthy
+    restart: on-failure
+    environment:
+      ACCESSTOKENSECRET: ${ACCESSTOKENSECRET}
+      REFRESHTOKENSECRET: ${REFRESHTOKENSECRET}
+      KAFKA_BROKER: kafka:9092
+
   auth-service:
     image: kostyabet228/crm-system:auth_service-latest
     container_name: auth-service
@@ -86,7 +125,11 @@ services:
     expose:
       - "5000"
     depends_on:
-      - db
+      db:
+        condition: service_started
+      kafka:
+        condition: service_healthy
+    restart: on-failure
     environment:
       ACCESSTOKENSECRET: ${ACCESSTOKENSECRET}
       REFRESHTOKENSECRET: ${REFRESHTOKENSECRET}
@@ -108,7 +151,11 @@ services:
     expose:
       - "5001"
     depends_on:
-      - db
+      db:
+        condition: service_started
+      kafka:
+        condition: service_healthy
+    restart: on-failure
     environment:
       ACCESSTOKENSECRET: ${ACCESSTOKENSECRET}
       REFRESHTOKENSECRET: ${REFRESHTOKENSECRET}
@@ -135,4 +182,6 @@ networks:
     driver: bridge
 
 volumes:
+  kibana_config:
+  es_data:
   postgres-data: {}
